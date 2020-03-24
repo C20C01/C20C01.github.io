@@ -687,5 +687,22 @@
 
   
 
+   
+<script>
+  var OriginTitile = document.title;
+  var titleTime;
+  document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+      document.title = "404 not found" + OriginTitile;
+      clearTimeout(titleTime);
+    } else {
+      document.title = "(ಡωಡ) 哈哈哈 逗你玩~" + OriginTitile;
+      titleTime = setTimeout(function() {
+        document.title = OriginTitile;
+      }, 2000);
+    }
+  });
+</script>
+
 </body>
 </html>
