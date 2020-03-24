@@ -593,10 +593,10 @@
   var titleTime;
   document.addEventListener("visibilitychange", function() {
     if (document.hidden) {
-      document.title = "404 not found                       " + OriginTitile;
+      document.title = "404 not found &nbsp;&nbsp;&nbsp;&nbsp;" + OriginTitile;
       clearTimeout(titleTime);
     } else {
-      document.title = "(>ω<) 哈哈哈 逗你玩~                " + OriginTitile;
+      document.title = "(>ω<) 哈哈哈 逗你玩~ &nbsp;&nbsp;&nbsp;&nbsp;" + OriginTitile;
       titleTime = setTimeout(function() {
         document.title = OriginTitile;
       }, 2000);
