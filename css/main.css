@@ -1943,7 +1943,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #8ed5ab;
+  background: #58ff74;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2731,6 +2731,7 @@ pre .javascript .function {
 @media (max-width: 767px) {
   #调整页面 颜色 布局 宽度,
   .header {
+    margin: 0 auto;
     width: 100%;
   }
 }
@@ -2792,6 +2793,7 @@ pre .javascript .function {
 }
 @media (max-width: 767px) {
   .container .main-inner {
+    margin: 0 auto;
     width: 100%;
   }
 }
