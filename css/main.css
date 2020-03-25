@@ -1943,7 +1943,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1d638e;
+  background: #2e9d98;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2731,7 +2731,7 @@ pre .javascript .function {
 @media (max-width: 767px) {
   #调整页面 颜色 布局 宽度,
   .header {
-    width: 100%;
+    width: 98%;
   }
 }
 .header-inner {
@@ -2759,7 +2759,7 @@ pre .javascript .function {
 @media (max-width: 767px) {
   .header-inner {
     position: relative;
-    width: 100%;
+    width: 98%;
     border-radius: initial;
   }
 }
@@ -2792,7 +2792,7 @@ pre .javascript .function {
 }
 @media (max-width: 767px) {
   .container .main-inner {
-    width: 100%;
+    width: 98%;
   }
 }
 .content-wrap {
