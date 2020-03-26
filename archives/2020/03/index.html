@@ -131,6 +131,9 @@
 
 
 
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -139,6 +142,11 @@
   
     
   
+
+<script src="https://C20C01.github.io/live2d/autoload.js"></script>
+
+
+
 
   <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
@@ -596,10 +604,10 @@
   var titleTime;
   document.addEventListener("visibilitychange", function() {
     if (document.hidden) {
-      document.title = "404 not found ________________" + OriginTitile;
+      document.title = "[404 not found]";
       clearTimeout(titleTime);
     } else {
-      document.title = "(>ω<) 哈哈哈 逗你玩~ ________________" + OriginTitile;
+      document.title = "(>ω<) 哈哈哈 上当了吧~";
       titleTime = setTimeout(function() {
         document.title = OriginTitile;
       }, 5000);
