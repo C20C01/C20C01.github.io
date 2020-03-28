@@ -28,7 +28,7 @@ function loadWidget(config) {
 		</div>`);
 	// https://stackoverflow.com/questions/24148403/trigger-css-transition-on-appended-element
 	setTimeout(() => {
-		document.getElementById("waifu").style.bottom = 0;
+		document.getElementById("waifu").style.bottom = "-13px";
 	}, 0);
 
 	function randomSelection(obj) {
@@ -104,7 +104,7 @@ function loadWidget(config) {
 			if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
 			else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
 			else if (now > 11 && now <= 13) text = "中午了，工作了一个上午，现在是午餐时间！";
-			else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的运动目标完成了吗？";
+			else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的目标完成了吗？";
 			else if (now > 17 && now <= 19) text = "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红～";
 			else if (now > 19 && now <= 21) text = "晚上好，今天过得怎么样？";
 			else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
@@ -128,7 +128,7 @@ function loadWidget(config) {
 		fetch("https://v1.hitokoto.cn")
 			.then(response => response.json())
 			.then(result => {
-				let text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
+				let text = ``;
 				showMessage(result.hitokoto, 6000, 9);
 				setTimeout(() => {
 					showMessage(text, 4000, 9);
@@ -270,7 +270,7 @@ function initWidget(config, apiPath = "/") {
 			localStorage.removeItem("waifu-display");
 			document.getElementById("waifu").style.display = "";
 			setTimeout(() => {
-				document.getElementById("waifu").style.bottom = 0;
+				document.getElementById("waifu").style.bottom = "-13px";
 			}, 0);
 		}
 	});

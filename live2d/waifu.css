@@ -1,11 +1,11 @@
 #waifu-toggle {
-	background-color: #fa0;
+	background-color: #f4a460;
 	border-radius: 5px;
 	bottom: 66px;
 	color: #fff;
 	cursor: pointer;
 	font-size: 12px;
-	left: 0;
+	left: 5px;
 	margin-left: -100px;
 	padding: 5px 2px 5px 5px;
 	position: fixed;
@@ -23,12 +23,12 @@
 }
 
 #waifu {
-	bottom: -9000px;
+	bottom: -1000px;
 	left: 0;
 	line-height: 0;
 	position: fixed;
 	transform: translateY(3px);
-	transition: transform .3s ease-in-out, bottom 3s ease-in-out;
+	transition: transform .3s ease-in-out, bottom 3.5s ease-in-out;
 	z-index: 1;
 }
 
@@ -44,7 +44,7 @@
 
 #waifu-tips {
 	animation: shake 50s ease-in-out 5s infinite;
-	background-color: rgba(236, 217, 188, .5);
+	background-color: rgba(236, 217, 188, .7);
 	border: 1px solid rgba(224, 186, 140, .62);
 	border-radius: 12px;
 	box-shadow: 0 3px 15px 2px rgba(191, 158, 118, .2);
