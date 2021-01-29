@@ -335,6 +335,7 @@
         
           
             <p>闲来无聊，想找点事干。突然想起上学时烂尾了的贪吃蛇，好久没看，加上写的贼烂于是便从头再试一试。先去网上找了找现成的，怪我太懒，改都懒得改。虽然不是完整版，但还是给了我好多帮助。</p>
+<hr>
 <p>下面是从网上复制过来的：（有点不一样）<br>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.ArrayList;<br>import java.util.List;<br>import javax.swing.JFrame;</p>
 <p>public class InterFace extends JFrame {</p>
 <p>/**<br>*<br>*/<br>private static final long serialVersionUID = 123;</p>
@@ -423,7 +424,7 @@
 <p>}</p>
 <p>}</p>
 <hr>
-<p>下面这个是我费了一整天才搞出来的半成品：<br>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
+<p>下面这个是我费了一整天才搞出来的半成品：（下面有改进过的版本，虽然这个也能跑一会）<br>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
 <p>public class Eatsnake extends JFrame {<br>private static final long serialVersionUID = 1L;<br>public static final int L = 1, R = 2, U = 3, D = 4,<br>SLEEPTIME = 100, AX = 50, AY = 35, A = 20, RX = 20, RY = 50;<br>// AX为横向格子个数，A为格子边长，RX为窗口框到矩形框的横向距离<br>Random CC = new Random();<br>int keyboard = R, rwidth = AX * A, rheight = AY * A,<br>width = rwidth + 2 * RX, height = rheight + RY + RX;<br>int x = AX / 3, y = AY / 2, length = 1,<br>grade = 0, c = 0, px = 0, py = 0;<br>int cc[][] = new int[AX * AY][2];</p>
 <p>BufferedImage offersetImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(RX, RY, AX * A, AY * A);<br>// 矩形外框参数</p>
 <p>public Eatsnake() {<br>createegg();<br>new Thread(new Thread1()).start();<br>// 新建一个线程“Thread1”用于一直循环<br>setBounds(0, 0, width, height);<br>// 等同于this.setBounds(0, 0, width,height);this关键字是用来调用当前类的方法，不写this编译器会自动补上<br>setTitle(“贪吃蛇 BY:CC2001”);<br>setDefaultCloseOperation(EXIT_ON_CLOSE);<br>setVisible(true);<br>addKeyListener(new KeyAdapter() {<br>public void keyPressed(KeyEvent e) {<br>switch (e.getKeyCode()) {<br>case KeyEvent.VK_DOWN:<br>keyboard = D;<br>break;<br>case KeyEvent.VK_UP:<br>keyboard = U;<br>break;<br>case KeyEvent.VK_LEFT:<br>keyboard = L;<br>break;<br>case KeyEvent.VK_RIGHT:<br>keyboard = R;<br>break;<br>}<br>}<br>});<br>}</p>
@@ -433,7 +434,7 @@
 <p>public void createegg() {<br>px = CC.nextInt(AX);<br>py = CC.nextInt(AY);<br>}</p>
 <p>public static void main(String[] args) {<br>new Eatsnake();<br>}<br>}</p>
 <hr>
-<p>里面用的数组，运行一会就会炸。所以又改了改，到头再折回去，应该能在蛇铺满屏幕前都能撑住了。</p>
+<p>里面用数组来记录脑袋之前走过的路（用来实现增长），运行一会就会炸（数组大小固定的，到头就塞不进去了）。所以又改了改，到头再折回去，应该能一直运行下去了。</p>
 <p>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
 <p>public class Eatsnake extends JFrame {<br>private static final long serialVersionUID = 1L;<br>public static final int L = 1, R = 2, U = 3, D = 4, SLEEPTIME = 100, AX = 50, AY = 35, A = 20, RX = 20, RY = 50;<br>// AX为横向格子个数，A为格子边长，RX为窗口框到矩形框的横向距离<br>Random CC = new Random();<br>int keyboard = R, rwidth = AX * A, rheight = AY * A, width = rwidth + 2 * RX, height = rheight + RY + RX;<br>int x = AX / 3, y = AY / 2, length = 1, grade = 0, c = 0, px = 0, py = 0;<br>int cc[][] = new int[AX * AY][2];</p>
 <p>BufferedImage offersetImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(RX, RY, AX * A, AY * A);<br>// 矩形外框参数</p>
@@ -446,6 +447,21 @@
 <hr>
 <p>但还是没编蛇头碰身子的东东，就这样了，实在懒得弄了😂</p>
 <p>我这个版本虽然有点乱，但是因为我的编码水平和大多新手相近，应该更好理解一点吧。。。</p>
+<hr>
+<p>又改了改，让蛇自己动，看个乐子了，感觉有点吃配置。<del>编蛇头碰身子的东东是不可能做的</del></p>
+<p>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
+<p>public class AIEatsnake extends JFrame {<br>private static final long serialVersionUID = 1L;<br>public static final int L = 1, R = 2, U = 3, D = 4, SLEEPTIME = 10, AX = 80, AY = 45, A = 20, RX = 20, RY = 50;<br>//    AX为横向格子个数，A为格子边长，RX为窗口框到矩形框的横向距离<br>//    SLEEPTIME调整刷新时间，调高以缓解运行压力&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>Random CC = new Random();<br>int keyboard = R, rwidth = AX * A, rheight = AY * A, width = rwidth + 2 * RX, height = rheight + RY + RX;<br>int x = AX / 3, y = AY / 2, length = 1, grade = 0, c = 0, px = 0, py = 0;</p>
+<p>//int max = 50;<br>int max = AX * AY;<br>//    这里的“AX * AY”是蛇的长度上限，可以自定一个&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</p>
+<p>int cc[][] = new int[max][2];<br>BufferedImage offersetImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(RX, RY, AX * A, AY * A);<br>//    矩形外框参数</p>
+<p>public AIEatsnake() {<br>createegg();<br>new Thread(new Thread1()).start();<br>//    新建一个线程“Thread1”用于一直循环<br>setBounds(0, 0, width, height);<br>//    等同于this.setBounds(0, 0, width,height);this关键字是用来调用当前类的方法，不写this编译器会自动补上<br>setTitle(“贪吃蛇 BY:CC2001”);<br>setDefaultCloseOperation(EXIT_ON_CLOSE);<br>setVisible(true);<br>}</p>
+<p>class Thread1 implements Runnable {<br>public void run() {<br>while (true) {<br>try {<br>Thread.sleep(SLEEPTIME);<br>c += 1;<br>if (c &lt; max) {<br>cc[c][0] = x;<br>cc[c][1] = y;<br>} else {<br>cc[0][0] = x;<br>cc[0][1] = y;<br>c = 0;<br>}<br>if (x == AX || y == AY || x &lt; 0 || y &lt; 0) {<br>grade = 0;<br>x = AX / 3;<br>y = AY / 2;<br>length = 1;<br>keyboard = R;<br>c = 1;<br>}</p>
+<p>if (x == px) {<br>if (y &lt; py) {<br>keyboard = D;<br>} else {<br>keyboard = U;<br>}<br>} else if (x &lt; px) {<br>keyboard = R;<br>} else {<br>keyboard = L;<br>}<br>//    让蛇自己动的代码<br>switch (keyboard) {<br>case D:<br>y += 1;<br>break;<br>case U:<br>y -= 1;<br>break;<br>case L:<br>x -= 1;<br>break;<br>case R:<br>x += 1;<br>break;<br>}<br>if (x == px &amp;&amp; y == py) {<br>createegg();<br>grade += 10;<br>if (length &lt;= max)<br>length += 1;<br>}<br>repaint();<br>System.out.println(c + “ x:” + cc[c][0] + “ y:” + cc[c][1]);<br>} catch (InterruptedException e) {<br>e.printStackTrace();<br>}<br>}<br>}<br>}</p>
+<p>public void paint(Graphics g) {</p>
+<p>Graphics2D g2d = (Graphics2D) offersetImage.getGraphics();<br>g2d.setColor(Color.black);<br>g2d.fillRect(0, 0, width, height);<br>g2d.setColor(Color.white);<br>g2d.drawRect(rect.x, rect.y, rect.width, rect.height); // 画矩形外框<br>g2d.drawString(“分数：” + grade + “       X:” + x + “ Y:” + y, 10, 45);<br>g2d.setColor(Color.green);<br>for (int i = c; i &gt; c - length; i–) {<br>if (i &lt; 0) {<br>int r = max + i;<br>g2d.fillRect(RX + cc[r][0] * A, RY + cc[r][1] * A, A, A);<br>} else {<br>g2d.fillRect(RX + cc[i][0] * A, RY + cc[i][1] * A, A, A);<br>}<br>}<br>g2d.setColor(Color.white);<br>g2d.fillRect(RX + x * A, RY + y * A, A, A);</p>
+<p>g2d.setColor(Color.yellow);<br>g2d.fillRect(RX + px * A, RY + py * A, A, A);<br>g.drawImage(offersetImage, 0, 0, null);<br>}</p>
+<p>public void createegg() {<br>px = CC.nextInt(AX);<br>py = CC.nextInt(AY);<br>}</p>
+<p>public static void main(String[] args) {<br>new AIEatsnake();<br>}<br>}</p>
+<p>还是挺有意思的东东😁</p>
 
           
         
