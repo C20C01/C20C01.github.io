@@ -245,6 +245,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CC2001">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/" itemprop="url">MC原版生命值显示</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-03-21T21:23:50+08:00">
+                2022-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>闲来无事，也是为了搞点视频做打卡任务。把之前用命令方块做的生命值显示给压缩了一下，压缩成了单命令方块的。</p>
+<p>把代码复制到一个命令方块里再激活，就能把实现生命值显示的整个模块给生成出来。</p>
+<p>先上图看看</p>
+<img src="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/health1.png" class="" title="模块主体">
+
+<img src="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/health2.png" class="" title="查看血量">
+
+<img src="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/health3.png" class="" title="查看血量">
+
+<img src="/2022/03/21/MC%E5%8E%9F%E7%89%88%E7%94%9F%E5%91%BD%E5%80%BC%E6%98%BE%E7%A4%BA/health_gif.gif" class="" title="单命令方块生成">
+
+<p>原理并不太难，两个命令方块关于血量，两个关于发光效果。</p>
+<p>当玩家对着特定实体时，从其nbt获取血量并输出，同时给予其发光效果。当玩家视线移开时，输出空白消息清屏，并取消发光效果。</p>
+<p>下面分别是那四个命令方块里的代码。</p>
+<p>代码1：</p>
+<pre><code>execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute if entity @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5,nbt={DeathTime:0s}] run title @s actionbar [&quot;生命值： &quot;,{&quot;nbt&quot;:&quot;Health&quot;,&quot;entity&quot;:&quot;@e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5],nbt={DeathTime:0s}&quot;}]</code></pre><p>代码2：</p>
+<pre><code>execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute unless entity @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5] run title @s actionbar &quot;&quot;</code></pre><p>代码3：</p>
+<pre><code>execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute as @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5] if entity @s run effect give @s minecraft:glowing 1 0 true</code></pre><p>代码4：</p>
+<pre><code>execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute unless entity @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5] run effect clear @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..10] minecraft:glowing</code></pre><p>下面是单命令方块版本，注意方向，主体是在单个命令方块的旁边生成，而不是以单命令方块为中心。</p>
+<p>单命令方块代码：</p>
+<pre><code>/summon falling_block ~ ~1 ~ {Time:1,BlockState:{Name:redstone_block},Passengers:[
+{id:armor_stand,Health:0,Passengers:[
+{id:falling_block,Time:1,BlockState:{Name:activator_rail},Passengers:[
+{id:command_block_minecart,Command:&apos;data merge block ~ ~-2 ~ {auto:0}&apos;},
+{id:command_block_minecart,Command:&apos;gamerule commandBlockOutput false&apos;},
+{id:command_block_minecart,Command:&apos;fill ~1 ~-2 ~2 ~-1 ~-2 ~4 minecraft:polished_andesite&apos;},
+{id:command_block_minecart,Command:&apos;fill ~1 ~-1 ~2 ~-1 ~3 ~4 minecraft:black_stained_glass&apos;},
+{id:command_block_minecart,Command:&quot;setblock ~ ~2 ~3 minecraft:repeating_command_block[conditional=false,facing=down]{Command:&apos;
+execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute if entity @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5,nbt={DeathTime:0s}] run title @s actionbar [\&quot;生命值： \&quot;,{\&quot;nbt\&quot;:\&quot;Health\&quot;,\&quot;entity\&quot;:\&quot;@e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5],nbt={DeathTime:0s}\&quot;}]
+&apos;}&quot;},
+{id:command_block_minecart,Command:&quot;setblock ~ ~1 ~3 minecraft:chain_command_block[conditional=false,facing=down]{auto:1,Command:&apos;
+execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute unless entity @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5] run title @s actionbar \&quot;\&quot;
+&apos;}&quot;},
+{id:command_block_minecart,Command:&quot;setblock ~ ~0 ~3 minecraft:chain_command_block[conditional=false,facing=down]{auto:1,Command:&apos;
+execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute as @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5] if entity @s run effect give @s minecraft:glowing 1 0 true
+&apos;}&quot;},
+{id:command_block_minecart,Command:&quot;setblock ~ ~-1 ~3 minecraft:chain_command_block[conditional=false,facing=down]{auto:1,Command:&apos;
+execute as @a at @s anchored eyes positioned ^ ^ ^2 run execute unless entity @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..1.5] run effect clear @e[type=!minecraft:player,type=!minecraft:item,sort=nearest,limit=1,distance=..10] minecraft:glowing
+&apos;,}&quot;},
+{id:command_block_minecart,Command:&quot;setblock ~ ~3 ~3 minecraft:redstone_lamp&quot;},
+{id:command_block_minecart,Command:&quot;setblock ~ ~4 ~3 minecraft:lever[face=floor,facing=east,powered=true]&quot;},
+{id:command_block_minecart,Command:&apos;tellraw @p [
+{&quot;text&quot;:&quot;欢迎使用原版生命值显示\\n&quot;,&quot;color&quot;:&quot;aqua&quot;},
+{&quot;text&quot;:&quot;| 作者：&quot;,&quot;color&quot;:&quot;yellow&quot;},
+{&quot;text&quot;:&quot;CC2001\\n&quot;,&quot;color&quot;:&quot;dark_purple&quot;,&quot;hoverEvent&quot;:{&quot;action&quot;:&quot;show_text&quot;,&quot;value&quot;:&quot;我的其他ID：CC、C20C01&quot;}},
+{&quot;text&quot;:&quot;| CC的B站空间：&quot;,&quot;color&quot;:&quot;yellow&quot;},
+{&quot;text&quot;:&quot;传送门&quot;,&quot;color&quot;:&quot;green&quot;,&quot;clickEvent&quot;:{&quot;action&quot;:&quot;open_url&quot;,&quot;value&quot;:&quot;https://space.bilibili.com/22168654&quot;}}
+]&apos;},
+{id:command_block_minecart,Command:&apos;setblock ~ ~1 ~ command_block{auto:1,Command:&quot;fill ~ ~ ~ ~ ~-2 ~ air&quot;}&apos;},
+{id:command_block_minecart,Command:&apos;kill @e[type=command_block_minecart,distance=..1]&apos;}]}]}]}</code></pre><p>测试版本为JE1.18，其他版本不知道能不能用。</p>
+<p>获取命令方块的指令：/give @a command_block</p>
+<p>看不懂的地方可以去查查wiki，里面有很多命令的讲解，当然也可以问我。<del>会不会就另说了</del></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+  
+  <div>
+    
+ </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/19/%E5%A4%A7%E4%BA%8C%E7%9A%84%E5%AF%92%E5%81%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -694,192 +905,11 @@ private static byte[] digestData(byte[]... bytes) throws Exception {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/02/23/mCClient/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CC2001">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/02/23/mCClient/" itemprop="url">mCClient</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-02-23T09:40:36+08:00">
-                2022-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2022/02/23/mCClient/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2022/02/23/mCClient/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <img src="/2022/02/23/mCClient/1.png" class="" title="mCClient">
-
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="支持正版服务器的命令行MC登陆器"><a href="#支持正版服务器的命令行MC登陆器" class="headerlink" title="支持正版服务器的命令行MC登陆器"></a>支持正版服务器的命令行MC登陆器</h2><h3 id="关键词：Java、支持正版验证、命令行（无图形界面）、仅支持协议757（MC-1-18）、简单"><a href="#关键词：Java、支持正版验证、命令行（无图形界面）、仅支持协议757（MC-1-18）、简单" class="headerlink" title="关键词：Java、支持正版验证、命令行（无图形界面）、仅支持协议757（MC 1.18）、简单"></a>关键词：Java、支持正版验证、命令行（无图形界面）、仅支持协议757（MC 1.18）、简单</h3><p>· 使用Java编写，许多代码来自另一开源项目 <a href="https://github.com/Defective4/Another-Minecraft-Chat-Client" title="" target="">Another-Minecraft-Chat-Client</a>，mCClient算是它的简化版本吧，只是加上了对正版的支持。</p>
-<p>· 目前仅支持使用UUID及AccessToken进行正版验证，还没搞微软那个登录，如何获取UUID和AccessToken可以看看下面的说明。</p>
-<p>· 本人Java功力不深，这个东西更多是一个半成品或者是一个示例，只有较少的功能。</p>
-<h3 id="现阶段的具体功能"><a href="#现阶段的具体功能" class="headerlink" title="现阶段的具体功能"></a>现阶段的具体功能</h3><p>· 设置服务器的host、port、protocol及玩家的username、uuid、token（AccessToken） 。</p>
-<p>· 使用设置上面好的参数登录正版/离线模式的服务器（离线模式可用不填uuid和token，username也可以任意填写）。</p>
-<p>· 获取服务器的信息（就是MC服务器列表），这个可能信息会多一点，可以看到目前在线的玩家（应该吧）。</p>
-<p>· 获取游戏内的消息，向游戏发送消息，没有给消息（一串Json）进行分析，看起来会有一点乱。</p>
-<p>· 在玩家生命值、饥饿值发生变化时，返回数值。</p>
-<p>· 当玩家死亡时，自动重生。同时返回提示。</p>
-<p>· 保存玩家的参数到其文件夹内自动生成的json文档（mCClient.json），下次就能直接使了。</p>
-<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>· 下载 <a href="/2022/02/23/mCClient/mCClient_1.1.zip" title="mCClient_1.1.zip">mCClient_1.1.zip</a> ，并解压。</p>
-<p>· 双击 “GoGo.bat” 即可进入软件。</p>
-<p>· 输入”help”获取比较简明的说明，应该就能直接看懂了。</p>
-<h4 id="关于正版验证的UUID及AccessToken的获取"><a href="#关于正版验证的UUID及AccessToken的获取" class="headerlink" title="关于正版验证的UUID及AccessToken的获取"></a>关于正版验证的UUID及AccessToken的获取</h4><p>我平常是使用HMCL登陆器的（一个开源的MC登陆器，可以去Github上看看）。在用微软账号授权后，它的认证系统可以帮助我们获取我们的UUID及AccessToken。</p>
-<p>在与启动器同一文件夹内的hmcl.json内就能看到。</p>
-<img src="/2022/02/23/mCClient/2.png" class="" title="hmcl.json">
-
-<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>可以去参考 <a href="https://wiki.vg/Protocol" title="" target="">wiki.vg</a> ，以及 <a href="https://wiki.vg/Client_List" title="" target="">列表</a> 内的其他开源客户端。我也会单开一个文来说说对应的实现。</p>
-<h1 id="不足之处请多多包涵。-2022-2-23"><a href="#不足之处请多多包涵。-2022-2-23" class="headerlink" title="不足之处请多多包涵。 2022/2/23"></a>不足之处请多多包涵。 2022/2/23</h1><h2 id="ps："><a href="#ps：" class="headerlink" title="ps："></a>ps：</h2><p>因为里面搞中文注释会没法编译，搞英文又看不懂，所以就没搞注释了。<br>里面那些注释应该都来自上面提到的“AMCC”，那个比较高级（就是没法支持正版验证，不然我就直接使那个了，当然也就没有这个了），起码有UI，从里面copy、学到了不少。<br>正版验证后的加密对话，那部分是从mc源码学到的，做mod的那个项目里就能看到。<br>我也不太会用Git，不太敢直接在人家那里搞的，再加上他那个有点难懂，于是就单搞了这个，比较简单明了的版本，比较适合大家从里面学习mc的相关协议（学我的Java还是算了吧）。</p>
-<h2 id="题外话："><a href="#题外话：" class="headerlink" title="题外话："></a>题外话：</h2><p>这个东西断断续续搞了一个寒假，主要是想在玩的生存服务器里能不用开游戏就能挂机生产东西。<br>我这人三分钟热度，在wiki那里卡了半天就去干别的去了。<br>但是这几天又想了起来，于是开始在GitHub上找到了一些代码，硬着头皮稍微有了点理解。<br>主要还是太浮躁，看不进去别人的代码。英语不好也是硬伤。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-  
-  <div>
-    
- </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/2/">--&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/2/">--&gt;</a>
   </nav>
 
 
@@ -925,7 +955,7 @@ private static byte[] digestData(byte[]... bytes) throws Exception {
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-count">73</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -943,9 +973,13 @@ private static byte[] digestData(byte[]... bytes) throws Exception {
             <div class="links-of-author motion-element">
                 
                   <span class="links-of-author-item">
-                    <a href="https://github.com/C20C01" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                    <a href="https://github.com/C20C01" target="_blank" title="CC's GitHub">
+                      CC's GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://space.bilibili.com/22168654" target="_blank" title="CC's BiliBili">
+                      CC's BiliBili</a>
                   </span>
                 
             </div>
