@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+ 
+ <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="题外话：又一个月过去了，现在又回到家里准备开始网课生活了。疫情还是一如既往地在恶心人呢。 前言：在同学的推荐下，第一次接触“机械动力”这个模组。应该是个挺有名气的老牌模组，确实挺好玩的。正好新建的一座大楼需要搞个电梯，就尝试用机械动力搞一个比较高级的电梯。最终实现的效果还不错，拿出来分享一下。 大体思路： 从电梯里讲台或呼叫电梯的位置获取目标层数 判断起点与终点是否一致，若相等则取消 判断需要向上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MC·机械动力·可选层电梯">
+<meta property="og:url" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/index.html">
+<meta property="og:site_name" content="CC的小站">
+<meta property="og:description" content="题外话：又一个月过去了，现在又回到家里准备开始网课生活了。疫情还是一如既往地在恶心人呢。 前言：在同学的推荐下，第一次接触“机械动力”这个模组。应该是个挺有名气的老牌模组，确实挺好玩的。正好新建的一座大楼需要搞个电梯，就尝试用机械动力搞一个比较高级的电梯。最终实现的效果还不错，拿出来分享一下。 大体思路： 从电梯里讲台或呼叫电梯的位置获取目标层数 判断起点与终点是否一致，若相等则取消 判断需要向上">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%AE%B2%E5%8F%B0%E4%BF%A1%E5%8F%B7.gif">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E6%AF%94%E5%A4%A7%E5%B0%8F.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E5%88%A4%E6%96%AD%E7%9B%B8%E7%AD%89.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E6%8B%A6%E6%88%AA%E5%99%A8%E6%BF%80%E6%B4%BB%E8%A3%85%E7%BD%AE.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E4%B8%8B%E9%9D%A2%E7%9A%84%E6%9E%84%E6%88%90.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E6%8B%A6%E6%88%AA%E8%A3%85%E7%BD%AE.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%8E%B7%E5%8F%96%E6%A5%BC%E5%B1%82.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%84%89%E5%86%B2%E4%BF%9D%E5%AD%98.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E7%94%B5%E6%A2%AF%E5%88%B0%E7%AB%99.gif">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E5%91%BC%E5%8F%AB%E7%94%B5%E6%A2%AF.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%87%AA%E5%8A%A8%E5%BC%80%E9%97%A8.png">
+<meta property="og:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%BD%BF%E5%8E%A2.png">
+<meta property="article:published_time" content="2022-11-19T08:15:26.000Z">
+<meta property="article:modified_time" content="2022-11-19T17:58:23.562Z">
+<meta property="article:author" content="CC2001">
+<meta property="article:tag" content="CC2001">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%AE%B2%E5%8F%B0%E4%BF%A1%E5%8F%B7.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":15},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/11/19/MC·机械动力·可选层电梯/"/>
+
+
+
+
+
+  <title>MC·机械动力·可选层电梯 | CC的小站</title>
+  
+
+
+
+
+
+
+
+
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CC的小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-game">
+          <a href="/game/" rel="section">
+            
+            小游戏
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于 / 留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CC2001">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MC·机械动力·可选层电梯</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-11-19T16:15:26+08:00">
+                2022-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题外话："><a href="#题外话：" class="headerlink" title="题外话："></a>题外话：</h1><p>又一个月过去了，现在又回到家里准备开始网课生活了。疫情还是一如既往地在恶心人呢。</p>
+<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>在同学的推荐下，第一次接触“机械动力”这个模组。应该是个挺有名气的老牌模组，确实挺好玩的。<br>正好新建的一座大楼需要搞个电梯，就尝试用机械动力搞一个比较高级的电梯。最终实现的效果还不错，拿出来分享一下。</p>
+<h1 id="大体思路："><a href="#大体思路：" class="headerlink" title="大体思路："></a>大体思路：</h1><ol>
+<li>从电梯里讲台或呼叫电梯的位置获取目标层数</li>
+<li>判断起点与终点是否一致，若相等则取消</li>
+<li>判断需要向上还是向下，来决定反向齿轮箱是否启用</li>
+<li>将目标层上的拦截器开启</li>
+<li>松开离合，让电梯开始运动</li>
+<li>电梯遇到开启的拦截器，离合箱、反向箱状态复位，电梯停止</li>
+</ol>
+<h1 id="具体实现："><a href="#具体实现：" class="headerlink" title="具体实现："></a>具体实现：</h1><ul>
+<li><p>利用讲台上面的书能用比较器对应到红石的强度，来实现选层（碍于原版最高为15的红石强度，只能实现1~15层的电梯）。</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%AE%B2%E5%8F%B0%E4%BF%A1%E5%8F%B7.gif" class="" title="如图所示">
+<p>PS：书中的字符画直接靠程序生成的，在宽19像素，高13像素的白底图片插入黑色数字，再靠程序逐一判断每个像素是黑还是白，输出不同的符号。 <a href="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/1-15.txt" title="&gt; &gt;生成的字符画&lt; &lt;">&gt; &gt;生成的字符画&lt; &lt;</a></p>
+</li>
+<li><p>靠比较器判断代表电梯当前楼层与要去的楼层的红石强度：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E6%AF%94%E5%A4%A7%E5%B0%8F.png" class="" title="大于就向下，小于就向上">
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E5%88%A4%E6%96%AD%E7%9B%B8%E7%AD%89.png" class="" title="等于就忽略">
+</li>
+<li><p>靠要去楼层的信号激活指定楼层的拦截器：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E6%8B%A6%E6%88%AA%E5%99%A8%E6%BF%80%E6%B4%BB%E8%A3%85%E7%BD%AE.png" class="" title="输入强度为多少就激活第几个">
+</li>
+<li><p>利用锁存器来保持方向（向上/向下）、运行状态（松离合/踩离合）直到到达目的地。</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E4%B8%8B%E9%9D%A2%E7%9A%84%E6%9E%84%E6%88%90.png" class="" title="底下当然得有个电机">
+</li>
+<li><p>利用接触式信号发生器在指定层数拦截电梯：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E6%8B%A6%E6%88%AA%E8%A3%85%E7%BD%AE.png" class="" title="要去几层就把几层的拦截装置打开">
+<p>信号发生器被活塞推出才会与电梯产生信号，产生信号后发送归位信号停住电梯，然后收回信号发生器。</p>
+</li>
+<li><p>获取电梯的楼层与讲台的楼层：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%8E%B7%E5%8F%96%E6%A5%BC%E5%B1%82.png" class="" title="每层的模拟拉杆都不一样哦">
+</li>
+<li><p>将短暂的楼层信号锁住（感觉是非必要的）：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%84%89%E5%86%B2%E4%BF%9D%E5%AD%98.png" class="" title="磨了半天才搞出来">
+<p>由于只有电梯正好在哪层的时候才会有多强的信号，所以大部分情况下输入的都是0，但总不能电梯跑起来就1、0、2、0、3的显示电梯的当前楼层吧。<br>所以就靠这个装置把脉冲输出的强度锁起来，有新的非零信号再把之前的覆盖掉。<br>但感觉既然不会在运行中去用到楼层，那么这个就没有啥用了，只能用来连续的显示楼层。（这真是太cool了！）</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E7%94%B5%E6%A2%AF%E5%88%B0%E7%AB%99.gif" class="" title="具体效果：红色数字表示电梯到哪层了">
+</li>
+<li><p>实现呼叫电梯：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E5%91%BC%E5%8F%AB%E7%94%B5%E6%A2%AF.png" class="" title="没呼叫时就是把讲台的信号作为目的地">
+<p>默认情况下的目的地楼层的信号一直来自电梯里的讲台，所以在呼叫电梯时先得给它替换掉，再发出开始信号。</p>
+</li>
+<li><p>实现自动开门：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%87%AA%E5%8A%A8%E5%BC%80%E9%97%A8.png" class="" title="简单但十分优雅">
+<p>结构动起来就不会向外出充能了，所以不用担心中途每个门都开开。不算复杂，但要好看还是得考虑考虑。</p>
+</li>
+<li><p>轿厢：</p>
+<img src="/2022/11/19/MC%C2%B7%E6%9C%BA%E6%A2%B0%E5%8A%A8%E5%8A%9B%C2%B7%E5%8F%AF%E9%80%89%E5%B1%82%E7%94%B5%E6%A2%AF/%E8%BD%BF%E5%8E%A2.png" class="" title="得先打个胶先">
+
+</li>
+</ul>
+<h1 id="展示-教学视频"><a href="#展示-教学视频" class="headerlink" title="展示/教学视频"></a>展示/教学视频</h1><p>TODO</p>
+<h1 id="存档"><a href="#存档" class="headerlink" title="存档"></a>存档</h1><p>TODO</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></br></br></br>性感CC - 在线找打</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/Donate.jpg" alt="CC2001 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/10/15/AI%E4%BD%9C%E7%94%BB/" rel="next" title="AI作画">
+                <i class="fa fa-chevron-left"></i> AI作画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+  
+  <div>
+    
+    <!--文末提醒 本文到此结束-->
+<div>
+    
+        <div style="text-align:center;color: #a7a8bd;font-size:14px;">------ 我是分割线 ------</div>
+    
+</div>
+    
+ </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">CC2001</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">82</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/C20C01" target="_blank" title="CC's GitHub">
+                      CC's GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://space.bilibili.com/22168654" target="_blank" title="CC's BiliBili">
+                      CC's BiliBili</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题外话："><span class="nav-number">1.</span> <span class="nav-text">题外话：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">2.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大体思路："><span class="nav-number">3.</span> <span class="nav-text">大体思路：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现："><span class="nav-number">4.</span> <span class="nav-text">具体实现：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#展示-教学视频"><span class="nav-number">5.</span> <span class="nav-text">展示&#x2F;教学视频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存档"><span class="nav-number">6.</span> <span class="nav-text">存档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CC2001</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="powered-by">
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_uv">
+        本站访客数: <span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站访问量: <span id="busuanzi_value_site_pv"></span>
+    </span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+  
+<script src="https://c20c01.github.io/live2d/autoload.js"></script>
+
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'ObCP35Oqfl8pizbhDF1j2kNS-MdYXbMMI',
+        appKey: 'DEioo6lXFpEXQYvP2xei89uV',
+        placeholder: '( ゜-゜)つロ 干杯~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+   
+<script>
+  var OriginTitile = document.title;
+  var titleTime;
+  document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+      document.title = "[404 not found]";
+      clearTimeout(titleTime);
+    } else {
+      document.title = "(>ω<) 哈哈哈 上当了吧~";
+      titleTime = setTimeout(function() {
+        document.title = OriginTitile;
+      }, 5000);
+    }
+  });
+</script>
+
+
+
+ 
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+<script>
+  function timer() {
+    var ages = moment.preciseDiff(moment(),moment(20200319,"YYYYMMDD"));
+    ages = ages.replace(/years?/, "年");
+    ages = ages.replace(/months?/, "月");
+    ages = ages.replace(/days?/, "天");
+    ages = ages.replace(/hours?/, "小时");
+    ages = ages.replace(/minutes?/, "分");
+    ages = ages.replace(/seconds?/, "秒");
+    ages = ages.replace(/\d+/g, '<span style="color:#1890ff">$&</span>');
+    div.innerHTML = `网站已上线： ${ages}`;
+  }
+  var div = document.createElement("div");
+  //插入到copyright之后
+  var copyright = document.querySelector(".copyright");
+  document.querySelector(".footer-inner").insertBefore(div, copyright.nextSibling);
+  timer();
+  setInterval("timer()",1000)
+</script>
+
+</body>
+</html>
+
