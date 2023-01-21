@@ -245,6 +245,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/10/15/AI%E4%BD%9C%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CC2001">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/10/15/AI%E4%BD%9C%E7%94%BB/" itemprop="url">AI作画</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-10-15T17:18:40+08:00">
+                2022-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2022/10/15/AI%E4%BD%9C%E7%94%BB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/10/15/AI%E4%BD%9C%E7%94%BB/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>又一个月没动静了，上来水一水。</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在水群时遇到好多人在玩AI作画，看起来最近这玩意挺火的。好像是一个搞AI作画的模型流出来了，大伙就不用自己练了，直接拿来用就行了。跑这个对显存要求蛮大的（8G），不过应该有低配版的。</p>
+<h1 id="安装-amp-使用"><a href="#安装-amp-使用" class="headerlink" title="安装 &amp; 使用"></a>安装 &amp; 使用</h1><p>⚠：下面提供的文件皆来自互联网，故无法保证其的安全性。如有顾虑还请移步<a href="https://novelai.net/" target="_blank" rel="noopener">NovelAI</a>。</p>
+<ul>
+<li>安装git、Python</li>
+<li>打开Git Bash，使用cd命令切换到你要安装的文件夹</li>
+<li>输入下面的代码，安装 staple-diffustion-webui<pre><code>git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git</code></pre></li>
+<li>下载 <a href="https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth" target="_blank" rel="noopener">GFPGANv1.4.pth</a>，将其放到“stable-diffusion-webui”文件夹内</li>
+<li>下载模型（.ckpt），将其放到“stable-diffusion-webui\models\Stable-diffusion”<br><a href="magnet:?xt=urn:btih:5bde442da86265b670a3e5ea3163afad2c6f8ecc">流出的NovelAI模型</a>。只下一个模型就行了，我是用“stableckpt/animefull-lastest”里面的。</li>
+<li>运行“stable-diffusion-webui”文件夹内的webui.bat，这时应该就能用了。</li>
+<li>按照终端里的“Running on local URL:”，在浏览器内访问就能玩了。</li>
+</ul>
+<hr>
+<p>我也没怎么摸索呢，主要就俩功能。这个模型好像是拿P站上的插画练出来的，所以生成图片的风格大都挺二次元的。</p>
+<p>“txt2img”：根据你提供的关键词生成图片<br>“img2img”：根据你提供的关键词将图片转换成新的图片</p>
+<p>“Prompt”：关键词<br>“Negative Prompt”：反向关键词，就是AI会尽量避免出现这些关键词</p>
+<p>“Create style”：保存关键词（正&amp;反）<br>“Apply style”：加载保存的关键词</p>
+<h1 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h1><p>可以上网搜搜，“<a href="https://github.com/JingShing/NovelAI-installation-tutorial/tree/main/spell" target="_blank" rel="noopener">咒语</a>”的好坏对最终的效果影响还是挺大的。</p>
+<p>常用的反向咒语：</p>
+<pre><code>lowres,bad anatomy,bad hands,text,error,missing fingers,extra digit,fewer digits,cropped,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username,blurrypolar lowres,bad anatomy,bad hands,bad body,bad proportions,gross proportions,text,error,missing fingers,missing arms,missing legs,extra digit,extra fingers,fewer digits,extra limbs,extra arms,extra legs,malformed limbs,fused fingers,too many fingers,long neck,cross-eyed,mutated hands,cropped,poorly drawn hands,poorly drawn face,mutation,deformed,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username,blurry,ugly,duplicate,morbid,mutilated,out of frame,body out of frame</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/JingShing/NovelAI-installation-tutorial" target="_blank" rel="noopener">NovelAI-installation-tutorial</a><br><a href="https://zhuanlan.zhihu.com/p/571530804" target="_blank" rel="noopener">NovelAI泄露模型 环境搭建</a></p>
+<h1 id="祝你玩得开心"><a href="#祝你玩得开心" class="headerlink" title="祝你玩得开心"></a>祝你玩得开心</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+  
+  <div>
+    
+ </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/09/03/%E5%81%87%E6%9C%9F%E6%80%BB%E7%BB%93%EF%BC%88%E5%BC%80%E5%AD%A6%E5%B0%B1%E5%A4%A7%E4%B8%89%E4%B8%8A%E4%BA%86%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -578,356 +757,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CC2001">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/" itemprop="url">使用selenium自动化播课</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-30T21:27:08+08:00">
-                2022-05-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="警告：使用脚本刷课是不对的，好孩子不要这样做。"><a href="#警告：使用脚本刷课是不对的，好孩子不要这样做。" class="headerlink" title="警告：使用脚本刷课是不对的，好孩子不要这样做。"></a>警告：使用脚本刷课是不对的，好孩子不要这样做。</h1><p>正好前些日子课上让学网络爬虫，就了解到了selenium————一个能实现网页自动化的库，Java、Py都能使。正好想到学习通上那无聊的网络选修课还不少没看，就准备来实操一下练练手。</p>
-<p>我之前没发现java也行，就去py里搞了，还专门下了个PyCharm（JB家的东西真不错）。我这里配置库靠IDE，打完“import selenium”后就提示我自动安装了，浏览器引擎使得是Edge，去官网下就行。</p>
-<h1 id="程序："><a href="#程序：" class="headerlink" title="程序："></a>程序：</h1><pre><code>import random
-import sys
-import time
-
-from selenium import webdriver
-
-# Powered By CC2001
-# 学习通网课自动看视频，默认为每节课的第一个项目就是视频，如果不是可以自行修改“learn”函数
-
-phone = &apos;&apos;  # 填入学习通手机号
-password = &apos;&apos;  # 填入学习通密码
-headLess = True  # 无头模式（不显示渲染浏览器），有头还是更稳定一些
-
-
-def changeToIframeByX(xpath):
-    iframe = driver.find_element_by_xpath(xpath)
-    driver.switch_to.frame(iframe)  # 切换到iframe
-
-
-def changeToIframeByID(frameID):
-    iframe = driver.find_elements_by_id(frameID)
-    driver.switch_to.frame(iframe[-1])  # 切换到iframe
-
-
-def sleep():
-    time.sleep(round(random.random(), 1) + 0.5)
-
-
-def timeToS(timeStr):
-    t = timeStr.strip().split(&apos;:&apos;)
-    if len(t) == 2:
-        mm, ss = t
-        return int(mm) * 60 + int(ss)
-    elif len(t) == 3:
-        hh, mm, ss = t
-        return int(hh) * 3600 + int(mm) * 60 + int(ss)
-
-
-def getTime():
-    return time.strftime(&apos;[%H:%M:%S]&apos;, time.localtime())
-
-
-if headLess:
-    EDGE = {
-        &quot;browserName&quot;: &quot;MicrosoftEdge&quot;,
-        &quot;version&quot;: &quot;&quot;,
-        &quot;platform&quot;: &quot;WINDOWS&quot;,
-        &quot;ms:edgeOptions&quot;: {
-            &apos;extensions&apos;: [],
-            &apos;args&apos;: [
-                &apos;--headless&apos;,
-            ]}
-    }
-else:
-    EDGE = None
-
-driver = webdriver.Edge(executable_path=&apos;msedgedriver.exe&apos;, capabilities=EDGE)  # executable_path为下载的Edge引擎的路径
-driver.set_window_rect(-1000, -1000, 1000, 1000)
-driver.implicitly_wait(5)
-driver.get(&apos;https://passport2.chaoxing.com/login?fid=&amp;newversion=true&apos;)  # 学习通登录界面
-
-if phone == &apos;&apos;:
-    phone = input(&quot;学习通绑定的手机号：&quot;)
-driver.find_element_by_id(&apos;phone&apos;).send_keys(phone)
-
-if password == &apos;&apos;:
-    password = input(&quot;学习通密码：&quot;)
-driver.find_element_by_id(&apos;pwd&apos;).send_keys(password)
-
-sleep()
-driver.find_element_by_id(&apos;loginBtn&apos;).click()
-
-changeToIframeByX(&apos;/html/body/div[2]/div[2]/iframe&apos;)
-
-subjects = driver.find_element_by_xpath(
-    &apos;/html/body/div[1]/div/div/div[2]/div/div[2]/div[2]/ul&apos;).find_elements_by_tag_name(&apos;li&apos;)
-
-notNullSubjects = []
-for s in subjects:
-    if s.text != &quot;&quot;:
-        notNullSubjects.append(s)
-
-for index, s in enumerate(notNullSubjects):
-    print(&quot;[%d]:&quot; % index, s.text.replace(&quot;\n&quot;, &quot; &quot;))
-print(&quot;---------------------------------------------------&quot;)
-
-inp = input(&quot;输入科目序号：&quot;)
-try:
-    inp = int(inp)
-except ValueError:
-    print(&quot;格式错误，即将退出&quot;)
-    driver.quit()
-    sys.exit()
-else:
-    notNullSubjects[inp].find_element_by_tag_name(&apos;a&apos;).click()
-    notNullSubjects.clear()
-
-handles = driver.window_handles  # 获取当前全部窗口句柄集合
-for handle in handles:  # 切换窗口
-    if handle != driver.current_window_handle:
-        driver.close()  # 关闭第一个窗口
-        driver.switch_to.window(handle)  # 切换到第二个窗口
-driver.minimize_window()
-driver.find_element_by_xpath(&apos;/html/body/div[1]/div[3]/div[1]/div/ul[1]/li[2]/a&apos;).click()
-
-sleep()
-changeToIframeByID(&apos;frame_content-zj&apos;)
-classes = []
-for x in driver.find_elements_by_xpath(&apos;/html/body/div[1]/div/div[2]/div[2]&apos;):
-    for index, xx in enumerate(x.find_elements_by_tag_name(&apos;li&apos;)):
-        classes.append(xx)
-        print(&quot;[%d]:&quot; % index, xx.text.replace(&quot;\n&quot;, &quot; 任务数：&quot;))
-classes.clear()
-driver.switch_to.parent_frame()
-print(&quot;---------------------------------------------------&quot;)
-
-
-def learn(o):
-    global driver
-    sleep()
-    changeToIframeByID(&apos;frame_content-zj&apos;)
-    for c in driver.find_elements_by_xpath(&apos;/html/body/div[1]/div/div[2]/div[2]&apos;):
-        for index1, cc in enumerate(c.find_elements_by_tag_name(&apos;li&apos;)):
-            if index1 == o:
-                cc.click()
-    sleep()
-    driver.set_window_rect(-1000, -1000, 1000, 1000)
-    changeToIframeByX(&apos;/html/body/div[4]/div/div[3]/div[5]/iframe&apos;)
-    changeToIframeByX(&apos;/html/body/div/div/p[1]/div/iframe&apos;)
-    driver.find_element_by_tag_name(&apos;button&apos;).click()
-    sleep()
-    print(&apos;%s正在播放编号为“%d”的课程&apos; % (getTime(), o), end=&apos;: &apos;)
-    time.sleep(needTime() + 3)
-    print(&apos;%s编号为“%d”的课程已播放完毕&apos; % (getTime(), o))
-    driver.switch_to.parent_frame()
-    driver.switch_to.parent_frame()
-    driver.find_element_by_xpath(&apos;/html/body/div[4]/div/div[1]/a&apos;).click()
-    sleep()
-
-
-def needTime():
-    try:
-        sleep()
-        timeNow = driver.find_element_by_xpath(&apos;/html/body/div/div[4]/div/div[5]/div[2]/span[2]&apos;).text
-        timeStop = driver.find_element_by_xpath(&apos;/html/body/div/div[4]/div/div[5]/div[4]/span[2]&apos;).text
-        n = timeToS(timeStop) - timeToS(timeNow)
-    except TypeError:
-        print(&apos;进度获取失败，准备退出当前课程&apos;)
-        return 1
-    else:
-        if n &gt; 0:
-            print(&apos;%s/%s，需要%d秒&apos; % (timeNow, timeStop, n))
-        driver.minimize_window()
-        return n
-
-
-print(&quot;可输入一个编号，或输入两个中间夹着“:”的编号（“a:b”代表[a,b]）。输入其他格式可退出程序。&quot;)
-inp = input(&quot;输入课程序号：&quot;)
-if &quot;:&quot; in inp:
-    inp = inp.split(&quot;:&quot;)
-else:
-    inp = inp.split(&quot;：&quot;)
-if len(inp) == 1:
-    try:
-        s = int(inp[0])
-    except ValueError:
-        print(&quot;无法识别，即将退出&quot;)
-    else:
-        learn(s)
-
-elif len(inp) == 2:
-    s, e = inp
-    try:
-        s = int(s)
-        e = int(e)
-    except ValueError:
-        print(&quot;无法识别，即将退出&quot;)
-    else:
-        if s &gt; e:
-            temp = s
-            s = e
-            e = temp
-        for i in range(s, e + 1):
-            learn(i)
-        print(&quot;%s%d到%d所有课程播放完毕&quot; % (getTime(), s, e))
-
-driver.quit()</code></pre><hr>
-<h1 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h1><p>我没使过太久Python，写的可能有点怪，但还是差不多能跑的。逻辑上很简单，就是和脚本一样，得照着网页提前把处理方式录入好。善用“F12”，编起来没啥难度。需要使用的元素在iframe里的需要先切进去，切进去后的环境就是新的网页，用外面的东西时记得切出来。</p>
-<p>科技改变生活😍</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-  
-  <div>
-    
- </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-    
   </section>
 
   
@@ -978,7 +807,7 @@ driver.quit()</code></pre><hr>
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-count">84</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1033,7 +862,7 @@ driver.quit()</code></pre><hr>
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
