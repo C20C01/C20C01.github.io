@@ -245,6 +245,224 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/04/Java%E5%AD%97%E7%AC%A6%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CC2001">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/04/Java%E5%AD%97%E7%AC%A6%E7%94%BB/" itemprop="url">Java字符画</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-02-04T14:17:33+08:00">
+                2021-02-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/02/04/Java%E5%AD%97%E7%AC%A6%E7%94%BB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/02/04/Java%E5%AD%97%E7%AC%A6%E7%94%BB/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>七个礼拜的寒假到今天已经过去一半了，感觉比想象中的还慢一点呢，可能是以前的假期是真的没这么闲吧😂</p>
+<p>主要是有关IO的东东，思路很简单，就是把一个个像素替换为对应的字符。</p>
+<hr>
+<h1 id="gt-gt-gt-一："><a href="#gt-gt-gt-一：" class="headerlink" title="&gt;&gt;&gt; 一："></a>&gt;&gt;&gt; 一：</h1><p>读取指定位置的图片，在控制台和文件夹输出字符画</p>
+<p>import java.io.BufferedWriter;<br>import java.io.File;<br>import java.io.FileNotFoundException;<br>import java.io.FileOutputStream;<br>import java.io.IOException;<br>import java.io.OutputStreamWriter;<br>import java.io.UnsupportedEncodingException;<br>import javax.imageio.ImageIO;</p>
+<p>public class Word_1 {<br>//把in.png转换为out.txt，路径：D:/CC/image2word_2<br>public static void main(String[] argv) throws IOException {<br>java.awt.image.BufferedImage img = ImageIO.read(new File(“D:/CC/image2word_2/in.png”));<br>File newfiFile = new File(“D:/CC/image2word_2/out.txt”);<br>FileOutputStream fileOutputStream;<br>int width = img.getWidth();<br>int height = img.getHeight();<br>int q = 1;<br>//多少像素取一个点进行转换，越大越抽象（这种方法有点偷鸡，但大多数情况还行）<br>int max = 0;<br>try {<br>fileOutputStream = new FileOutputStream(newfiFile);<br>OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(newfiFile));<br>BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);</p>
+<p>for (int y = 0; y &lt; height; y += q) {<br>for (int x = 0; x &lt; width; x += q) {<br>int r = img.getRGB(x, y);</p>
+<p>int red = (r &gt;&gt; 16) &amp; 0x0ff;<br>int green = (r &gt;&gt; 8) &amp; 0x0ff;<br>int blue = r &amp; 0x0ff;<br>//上面三行我具体也不清楚，“r”经过上面的操作，分成能看懂的RGB。</p>
+<p>max = Math.max(red, Math.max(green, blue));<br>if (max &lt; 178) {<br>bufferedWriter.write(“* “);<br>System.out.print(“* “);<br>} else {<br>bufferedWriter.write(“. “);<br>System.out.print(“. “);<br>}<br>//这里是试出来的，不知道有没有更好的方法</p>
+<p>}<br>bufferedWriter.write(“\n”);<br>System.out.println(“”);<br>}<br>bufferedWriter.close();<br>outputStreamWriter.close();<br>fileOutputStream.close();<br>System.err.println(“ok”);</p>
+<p>} catch (FileNotFoundException e) {<br>e.printStackTrace();<br>} catch (UnsupportedEncodingException e) {<br>e.printStackTrace();<br>} catch (IOException e) {<br>e.printStackTrace();<br>}<br>}<br>}</p>
+<hr>
+<h2 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h2><p>把像素点的RGB数值均调为最大的那个值，那个像素点就成黑白的了，每个像素都做一遍，整个图片就灰化了</p>
+<p>例如： R:200 G:100 B:50 -&gt; R:200 G:200 B:200</p>
+<p>把上面的改改就能实现灰化图片了，把RGB数值还原回一个数的语句：r = (red &lt;&lt; 16) | (green &lt;&lt; 8) | blue;</p>
+<h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><p>我就是从这里学的，这里就不把你们往茄子地里带了😝</p>
+<p><a href="https://www.bilibili.com/video/BV16x411r7Eq?p=127" target="_blank" rel="noopener">隔壁B站的教学视频</a></p>
+<h2 id="字符画"><a href="#字符画" class="headerlink" title="字符画"></a>字符画</h2><p>得先自己试好一套字体，字符。首先得满足不同字符占位大小是一样的，再自己多试试不同字符字体间的搭配</p>
+<p>@ # $ % ^ &amp; X O H I + / . ‘ `</p>
+<p>在if语句那里多写几句就可以让字符画细节保留的更多一些，把0~255平均分成若干份就行了（0到255，从黑到白）。都是差不多的</p>
+<h2 id="成品"><a href="#成品" class="headerlink" title="成品"></a>成品</h2><p>&gt;&gt;&gt; <a href="/2021/02/04/Java%E5%AD%97%E7%AC%A6%E7%94%BB/cake.doc" title="蛋糕.doc">蛋糕.doc</a> &lt;&lt;&lt;</p>
+<p>输入的图片最好提前处理的好一点。相比与靠改程序里的“q”，还是提前把图片缩小好效果好，亮度提前也要调好，不要整个画面都太亮或太暗（除非你有针对这种情况调整程序）</p>
+<hr>
+<h1 id="gt-gt-gt-二："><a href="#gt-gt-gt-二：" class="headerlink" title="&gt;&gt;&gt; 二："></a>&gt;&gt;&gt; 二：</h1><p>把Bad apple视频逐帧拆解为图片，再用上面的程序转换为字符画并创建窗口进行播放</p>
+<p>下面是实现前半句的程序，从网上复制的。得引用外部库，下一个javacv全都有了</p>
+<p>import org.bytedeco.javacv.FFmpegFrameGrabber;<br>import org.bytedeco.javacv.Frame;<br>import org.bytedeco.javacv.Java2DFrameConverter;<br>import javax.imageio.ImageIO;<br>import java.awt.image.BufferedImage;<br>import java.io.File;<br>import java.io.IOException;</p>
+<p>public class Test {</p>
+<p>// 视频文件路径<br>private static String videoPath = “D:\图片\test”;</p>
+<p>// 视频帧图片存储路径<br>public static String videoFramesPath = “D:\图片\test”;</p>
+<p>public static void grabberVideoFramer(String videoFileName) {<br>// Frame对象<br>Frame frame = null;<br>// 标识<br>int flag = 0;</p>
+<p>FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(videoPath + “/“ + videoFileName);</p>
+<p>try {<br>fFmpegFrameGrabber.start();</p>
+<p>int ftp = fFmpegFrameGrabber.getLengthInFrames();<br>//   System.out.println(fFmpegFrameGrabber.grabKeyFrame());<br>System.out.println(“时长 “ + ftp / fFmpegFrameGrabber.getFrameRate());</p>
+<p>BufferedImage bImage = null;<br>System.out.println(“开始运行视频提取帧，耗时较长”);</p>
+<p>while (flag &lt;= ftp) {<br>// 文件绝对路径+名字<br>String fileName = videoFramesPath + “/img_” + String.valueOf(flag) + “.jpg”;<br>// 文件储存对象<br>File outPut = new File(fileName);<br>// 获取帧<br>frame = fFmpegFrameGrabber.grabImage();<br>//    System.out.println(frame);<br>if (frame != null) {<br>ImageIO.write(FrameToBufferedImage(frame), “jpg”, outPut);<br>}<br>flag++;<br>}<br>System.out.println(“============运行结束============”);<br>fFmpegFrameGrabber.stop();<br>} catch (IOException E) {<br>}<br>}</p>
+<p>public static BufferedImage FrameToBufferedImage(Frame frame) {<br>// 创建BufferedImage对象<br>Java2DFrameConverter converter = new Java2DFrameConverter();<br>BufferedImage bufferedImage = converter.getBufferedImage(frame);<br>return bufferedImage;<br>}</p>
+<p>public static void main(String[] args) {<br>String videoFileName = “123.mp4”;<br>//这里写视频的文件名<br>grabberVideoFramer(videoFileName);<br>}</p>
+<p>public static String getVideoPath() {<br>return videoPath;<br>}</p>
+<p>public static void setVideoPath(String videoPath) {<br>Test.videoPath = videoPath;<br>}<br>}</p>
+<hr>
+<p>下面是实现后半句的程序，有两个类（要新建两个class）<br>Wordplayer中的all参数是看你总共提取出多少图片，如果你是用上面提取的，文件名应该是img_1.jpg，img_2.jpg顺下去的，下面就是不停的打开下一帧的图片</p>
+<p>//Wordplayer</p>
+<p>import java.io.File;<br>import java.io.IOException;<br>import javax.imageio.ImageIO;</p>
+<p>public class Wordplayer {<br>public static void main(String[] args) {<br>new Window();<br>new cc().start();<br>}<br>}</p>
+<p>class cc extends Thread {<br>int width = 0, height = 0, q = 20, r = 0, sleeptime = 1, all = 13147;<br>String word = “”;</p>
+<p>public void run() {<br>for (int i = 0; i &lt;= all; i++) {<br>try {<br>java.awt.image.BufferedImage img = ImageIO.read(new File(“D:\图片\test\img_” + i + “.jpg”));<br>//上面写你那一帧帧的图片在哪个文件夹，叫什么名<br>width = img.getWidth();<br>height = img.getHeight();<br>for (int y = 0; y &lt; height; y += q) {<br>for (int x = 0; x &lt; width; x += q) {<br>r = img.getRGB(x, y);<br>if (((r &gt;&gt; 16) &amp; 0x0ff) &gt; 178 || ((r &gt;&gt; 8) &amp; 0x0ff) &gt; 178 || ((r &gt;&gt; 8) &amp; 0x0ff) &gt; 178)<br>word += “.”;<br>else<br>word += “*”;<br>}<br>word += “\n”;<br>}<br>// System.out.println(word);<br>Window.settext(word);<br>sleep(sleeptime);<br>word = “”;<br>} catch (IOException e) {<br>e.printStackTrace();<br>} catch (InterruptedException e) {<br>e.printStackTrace();<br>}<br>}<br>System.err.println(“End”);<br>System.exit(0);<br>}<br>}</p>
+<hr>
+<p>//Window</p>
+<p>import java.awt.BorderLayout;<br>import javax.swing.JFrame;<br>import javax.swing.JPanel;<br>import javax.swing.border.EmptyBorder;<br>import javax.swing.text.*;<br>import javax.swing.JTextPane;<br>import java.awt.Font;</p>
+<p>public class Window extends JFrame {</p>
+<p>private static final long serialVersionUID = 1L;<br>static JTextPane textPane = new JTextPane();<br>private static JPanel contentPane;</p>
+<p>public Window() {<br>setTitle(“Bad apple BY:CC2001”);<br>setVisible(true);<br>setAlwaysOnTop(true);<br>setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>setBounds(900, 500, 465, 385);<br>contentPane = new JPanel();<br>contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));<br>contentPane.setLayout(new BorderLayout(0, 0));<br>setContentPane(contentPane);<br>textPane.setFont(new Font(“Calibri Light”, Font.PLAIN, 12));<br>textPane.setEditable(false);<br>Style style = new StyleContext().new NamedStyle();<br>StyleConstants.setLineSpacing(style, -0.6f);<br>StyleConstants.setFontSize(style, 10);<br>StyleConstants.setBold(style, true);<br>textPane.setLogicalStyle(style);<br>contentPane.add(textPane, BorderLayout.CENTER);<br>}</p>
+<p>public static void settext(String text) {<br>textPane.setText(text);<br>textPane.repaint();<br>}<br>}</p>
+<hr>
+<h2 id="成品-1"><a href="#成品-1" class="headerlink" title="成品"></a>成品</h2><img src="/2021/02/04/Java%E5%AD%97%E7%AC%A6%E7%94%BB/001.gif" class="" title="成品片段">
+
+<p>效果还是挺爽的，可能有点吃配置</p>
+<p>还没有声音，没法控制播放速度（这里的sleeptime是死的，没法根据运算的快慢进行动态调整）</p>
+<p>存一群图片才能放片也是有点不爽的一点</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+  
+  <div>
+    
+ </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/28/Java%E8%B4%AA%E5%90%83%E8%9B%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -680,169 +898,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/Origin%E6%89%93%E4%B8%8D%E5%BC%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CC2001">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/22/Origin%E6%89%93%E4%B8%8D%E5%BC%80/" itemprop="url">Origin打不开</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-22T19:17:52+08:00">
-                2021-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/22/Origin%E6%89%93%E4%B8%8D%E5%BC%80/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2021/01/22/Origin%E6%89%93%E4%B8%8D%E5%BC%80/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Epic送的星战:前线2真好玩，但是还是得用烂橘子。下载个游戏不挂加速器就贼慢，没爽几天，加速器试用过期了。于是尝试直连，但是烂橘子死活上不去了，就是白背景加上一段话好像是“出了点状况…”。</p>
-<p>感觉是用完加速器的“后遗症”，烂橘子窗口右上角一直写的HK，应该是国内没法直连的过。</p>
-<p>清理一下烂橘子的数据，让它连CN应该就没问题了。</p>
-<p>1.退出烂橘子。<br>2.再用win键+R，打开运行窗口。<br>3.输入“%appdata%”，应该会进到…\Appdata\Roaming。<br>4.把…\AppData\Roaming\Origin和…\AppData\Local\Origin里的东东都删掉。<br>5.再打开烂橘子就行了😂</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-  
-  <div>
-    
- </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-    
   </section>
 
   
@@ -893,7 +948,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
