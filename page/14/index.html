@@ -245,6 +245,293 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/28/Java%E8%B4%AA%E5%90%83%E8%9B%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CC2001">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/01/28/Java%E8%B4%AA%E5%90%83%E8%9B%87/" itemprop="url">Java贪吃蛇</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-28T18:21:55+08:00">
+                2021-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/28/Java%E8%B4%AA%E5%90%83%E8%9B%87/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/01/28/Java%E8%B4%AA%E5%90%83%E8%9B%87/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>闲来无聊，想找点事干。突然想起上学时烂尾了的贪吃蛇，好久没看，加上写的贼烂于是便从头再试一试。先去网上找了找现成的，怪我太懒，改都懒得改。虽然不是完整版，但还是给了我好多帮助。</p>
+<hr>
+<p>下面是从网上复制过来的：（有点不一样）<br>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.ArrayList;<br>import java.util.List;<br>import javax.swing.JFrame;</p>
+<p>public class InterFace extends JFrame {</p>
+<p>/**<br>*<br>*/<br>private static final long serialVersionUID = 123;</p>
+<p>public static final int WIDTH = 800, HEIGHT = 600, SLEEPTIME = 70, L = 1, R = 2, U = 3, D = 4;<br>BufferedImage offersetImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(20, 40, 15 * 50, 15 * 35);<br>Snake snake;<br>Node node;</p>
+<p>public InterFace() {<br>snake = new Snake(null);<br>createNode();<br>this.setBounds(0, 0, WIDTH, HEIGHT);<br>this.addKeyListener(new KeyAdapter() {<br>public void keyPressed(KeyEvent arg0) {<br>// System.out.println(arg0.getKeyCode());<br>switch (arg0.getKeyCode()) {<br>case KeyEvent.VK_LEFT:<br>snake.dir = L;<br>break;<br>case KeyEvent.VK_RIGHT:<br>snake.dir = R;<br>break;<br>case KeyEvent.VK_UP:<br>snake.dir = U;<br>break;<br>case KeyEvent.VK_DOWN:<br>snake.dir = D;<br>}<br>}<br>});<br>this.setTitle(“贪吃蛇 0.1   By ： Easy”);<br>this.setDefaultCloseOperation(EXIT_ON_CLOSE);<br>this.setVisible(true);<br>new Thread(new ThreadUpadte()).start();<br>}</p>
+<p>public void paint(Graphics g) {</p>
+<p>Graphics2D g2d = (Graphics2D) offersetImage.getGraphics();<br>g2d.setColor(Color.white);<br>g2d.fillRect(0, 0, WIDTH, HEIGHT);<br>g2d.setColor(Color.red);<br>g2d.drawRect(rect.x, rect.y, rect.width, rect.height);<br>if (snake.hit(node)) {<br>createNode();<br>}<br>snake.draw(g2d);<br>node.draw(g2d);<br>g.drawImage(offersetImage, 0, 0, null);<br>}</p>
+<p>class ThreadUpadte implements Runnable {</p>
+<p>public void run() {<br>while (true) {</p>
+<p>try {<br>Thread.sleep(SLEEPTIME);<br>repaint();<br>} catch (InterruptedException e) {<br>e.printStackTrace();<br>}<br>}<br>}<br>}</p>
+<p>public void createNode() {<br>int x = (int) (Math.random() * 650) + 50, y = (int) (Math.random() * 500) + 50;<br>Color color = Color.red;<br>node = new Node(x, y, color);<br>}</p>
+<p>public static void main(String args[]) {<br>new InterFace();<br>}<br>}</p>
+<p>class Node {</p>
+<p>int x, y, width = 15, height = 15;<br>Color color;</p>
+<p>public Node(int x, int y, Color color) {<br>this(x, y);</p>
+<p>this.color = color;</p>
+<p>}</p>
+<p>public Node(int x, int y) {</p>
+<p>this.x = x;</p>
+<p>this.y = y;</p>
+<p>this.color = Color.black;</p>
+<p>}</p>
+<p>public void draw(Graphics2D g2d) {<br>g2d.setColor(color);<br>g2d.drawRect(x, y, width, height);</p>
+<p>}</p>
+<p>public Rectangle getRect() {</p>
+<p>return new Rectangle(x, y, width, height);</p>
+<p>}</p>
+<p>}</p>
+<p>class Snake {</p>
+<p>public List<Node> nodes = new ArrayList<Node>();</p>
+<p>InterFace interFace;</p>
+<p>int dir = InterFace.R;</p>
+<p>public Snake(InterFace interFace) {</p>
+<p>this.interFace = interFace;</p>
+<p>nodes.add(new Node(20 + 150, 40 + 150));</p>
+<p>addNode();</p>
+<p>}</p>
+<p>public boolean hit(Node node) {</p>
+<p>for (int i = 0; i &lt; nodes.size(); i++) {</p>
+<p>if (nodes.get(i).getRect().intersects(node.getRect())) {</p>
+<p>addNode();</p>
+<p>return true;</p>
+<p>}</p>
+<p>}</p>
+<p>return false;</p>
+<p>}</p>
+<p>public void draw(Graphics2D g2d) {</p>
+<p>for (int i = 0; i &lt; nodes.size(); i++) {</p>
+<p>nodes.get(i).draw(g2d);</p>
+<p>}</p>
+<p>move();</p>
+<p>}</p>
+<p>public void move() {</p>
+<p>nodes.remove((nodes.size() - 1));</p>
+<p>addNode();</p>
+<p>}</p>
+<p>public synchronized void addNode() {</p>
+<p>Node nodeTempNode = nodes.get(0);</p>
+<p>switch (dir) {</p>
+<p>case InterFace.L:</p>
+<p>if (nodeTempNode.x &lt;= 20) {</p>
+<p>nodeTempNode = new Node(20 + 15 * 50, nodeTempNode.y);</p>
+<p>}</p>
+<p>nodes.add(0, new Node(nodeTempNode.x - nodeTempNode.width,</p>
+<p>nodeTempNode.y));</p>
+<p>break;</p>
+<p>case InterFace.R:</p>
+<p>if (nodeTempNode.x &gt;= 20 + 15 * 50 - nodeTempNode.width) {</p>
+<p>nodeTempNode = new Node(20 - nodeTempNode.width, nodeTempNode.y);</p>
+<p>}</p>
+<p>nodes.add(0, new Node(nodeTempNode.x + nodeTempNode.width, nodeTempNode.y));</p>
+<p>break;</p>
+<p>case InterFace.U:</p>
+<p>if (nodeTempNode.y &lt;= 40) {</p>
+<p>nodeTempNode = new Node(nodeTempNode.x, 40 + 15 * 35);</p>
+<p>}</p>
+<p>nodes.add(0, new Node(nodeTempNode.x, nodeTempNode.y - nodeTempNode.height));</p>
+<p>break;</p>
+<p>case InterFace.D:</p>
+<p>if (nodeTempNode.y &gt;= 40 + 15 * 35 - nodeTempNode.height) {</p>
+<p>nodeTempNode = new Node(nodeTempNode.x, 40 - nodeTempNode.height);</p>
+<p>}</p>
+<p>nodes.add(0, new Node(nodeTempNode.x, nodeTempNode.y + nodeTempNode.height));</p>
+<p>break;</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+<hr>
+<p>下面这个是我费了一整天才搞出来的半成品：（下面有改进过的版本，虽然这个也能跑一会）<br>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
+<p>public class Eatsnake extends JFrame {<br>private static final long serialVersionUID = 1L;<br>public static final int L = 1, R = 2, U = 3, D = 4,<br>SLEEPTIME = 100, AX = 50, AY = 35, A = 20, RX = 20, RY = 50;<br>// AX为横向格子个数，A为格子边长，RX为窗口框到矩形框的横向距离<br>Random CC = new Random();<br>int keyboard = R, rwidth = AX * A, rheight = AY * A,<br>width = rwidth + 2 * RX, height = rheight + RY + RX;<br>int x = AX / 3, y = AY / 2, length = 1,<br>grade = 0, c = 0, px = 0, py = 0;<br>int cc[][] = new int[AX * AY][2];</p>
+<p>BufferedImage offersetImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(RX, RY, AX * A, AY * A);<br>// 矩形外框参数</p>
+<p>public Eatsnake() {<br>createegg();<br>new Thread(new Thread1()).start();<br>// 新建一个线程“Thread1”用于一直循环<br>setBounds(0, 0, width, height);<br>// 等同于this.setBounds(0, 0, width,height);this关键字是用来调用当前类的方法，不写this编译器会自动补上<br>setTitle(“贪吃蛇 BY:CC2001”);<br>setDefaultCloseOperation(EXIT_ON_CLOSE);<br>setVisible(true);<br>addKeyListener(new KeyAdapter() {<br>public void keyPressed(KeyEvent e) {<br>switch (e.getKeyCode()) {<br>case KeyEvent.VK_DOWN:<br>keyboard = D;<br>break;<br>case KeyEvent.VK_UP:<br>keyboard = U;<br>break;<br>case KeyEvent.VK_LEFT:<br>keyboard = L;<br>break;<br>case KeyEvent.VK_RIGHT:<br>keyboard = R;<br>break;<br>}<br>}<br>});<br>}</p>
+<p>class Thread1 implements Runnable {<br>public void run() {<br>while (true) {<br>try {<br>Thread.sleep(SLEEPTIME);<br>cc[++c][0] = x;<br>cc[c][1] = y;<br>if (x == AX || y == AY || x &lt; 0 || y &lt; 0) {<br>grade = 0;<br>x = AX / 3;<br>y = AY / 2;<br>length = 1;<br>keyboard = R;<br>c = 1;<br>}<br>switch (keyboard) {<br>case D:<br>y += 1;<br>break;<br>case U:<br>y -= 1;<br>break;<br>case L:<br>x -= 1;<br>break;<br>case R:<br>x += 1;<br>break;<br>}<br>if (x == px &amp;&amp; y == py) {<br>createegg();<br>grade += 10;<br>length += 1;<br>}<br>repaint();<br>System.out.println(c + “ x:” + cc[c][0] + “ y:” + cc[c][1]);<br>} catch (InterruptedException e) {<br>e.printStackTrace();<br>}<br>}<br>}<br>}</p>
+<p>public void paint(Graphics g) {</p>
+<p>Graphics2D g2d = (Graphics2D) offersetImage.getGraphics();<br>g2d.setColor(Color.black);<br>g2d.fillRect(0, 0, width, height);<br>g2d.setColor(Color.white);<br>g2d.drawRect(rect.x, rect.y, rect.width, rect.height); // 画矩形外框<br>g2d.drawString(“分数：” + grade + “       X:” + x + “ Y:” + y, 10, 45);<br>for (int i = c; i &gt; c - length; i–) {<br>g2d.fillRect(RX + cc[i][0] * A, RY + cc[i][1] * A, A, A);<br>}<br>g2d.setColor(Color.green);<br>g2d.fillRect(RX + px * A, RY + py * A, A, A);<br>g.drawImage(offersetImage, 0, 0, null);<br>}</p>
+<p>public void createegg() {<br>px = CC.nextInt(AX);<br>py = CC.nextInt(AY);<br>}</p>
+<p>public static void main(String[] args) {<br>new Eatsnake();<br>}<br>}</p>
+<hr>
+<p>里面用数组来记录脑袋之前走过的路（用来实现增长），运行一会就会炸（数组大小固定的，到头就塞不进去了）。所以又改了改，到头再折回去，应该能一直运行下去了。</p>
+<p>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.event.KeyAdapter;<br>import java.awt.event.KeyEvent;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
+<p>public class Eatsnake extends JFrame {<br>private static final long serialVersionUID = 1L;<br>public static final int L = 1, R = 2, U = 3, D = 4, SLEEPTIME = 100, AX = 50, AY = 35, A = 20, RX = 20, RY = 50;<br>// AX为横向格子个数，A为格子边长，RX为窗口框到矩形框的横向距离<br>Random CC = new Random();<br>int keyboard = R, rwidth = AX * A, rheight = AY * A, width = rwidth + 2 * RX, height = rheight + RY + RX;<br>int x = AX / 3, y = AY / 2, length = 1, grade = 0, c = 0, px = 0, py = 0;<br>int cc[][] = new int[AX * AY][2];</p>
+<p>BufferedImage offersetImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(RX, RY, AX * A, AY * A);<br>// 矩形外框参数</p>
+<p>public Eatsnake() {<br>createegg();<br>new Thread(new Thread1()).start();<br>// 新建一个线程“Thread1”用于一直循环<br>setBounds(0, 0, width, height);<br>// 等同于this.setBounds(0, 0, width,height);this关键字是用来调用当前类的方法，不写this编译器会自动补上<br>setTitle(“贪吃蛇 BY:CC2001”);<br>setDefaultCloseOperation(EXIT_ON_CLOSE);<br>setVisible(true);<br>addKeyListener(new KeyAdapter() {<br>public void keyPressed(KeyEvent e) {<br>switch (e.getKeyCode()) {<br>case KeyEvent.VK_DOWN:<br>keyboard = D;<br>break;<br>case KeyEvent.VK_UP:<br>keyboard = U;<br>break;<br>case KeyEvent.VK_LEFT:<br>keyboard = L;<br>break;<br>case KeyEvent.VK_RIGHT:<br>keyboard = R;<br>break;<br>}<br>}<br>});<br>}</p>
+<p>class Thread1 implements Runnable {<br>public void run() {<br>while (true) {<br>try {<br>Thread.sleep(SLEEPTIME);<br>c += 1;<br>if (c &lt; AX * AY) {<br>cc[c][0] = x;<br>cc[c][1] = y;<br>} else {<br>cc[0][0] = x;<br>cc[0][1] = y;<br>c = 0;<br>}<br>if (x == AX || y == AY || x &lt; 0 || y &lt; 0) {<br>grade = 0;<br>x = AX / 3;<br>y = AY / 2;<br>length = 1;<br>keyboard = R;<br>c = 1;<br>}<br>switch (keyboard) {<br>case D:<br>y += 1;<br>break;<br>case U:<br>y -= 1;<br>break;<br>case L:<br>x -= 1;<br>break;<br>case R:<br>x += 1;<br>break;<br>}<br>if (x == px &amp;&amp; y == py) {<br>createegg();<br>grade += 10;<br>length += 1;<br>}<br>repaint();<br>System.out.println(c + “ x:” + cc[c][0] + “ y:” + cc[c][1]);<br>} catch (InterruptedException e) {<br>e.printStackTrace();<br>}<br>}<br>}<br>}</p>
+<p>public void paint(Graphics g) {</p>
+<p>Graphics2D g2d = (Graphics2D) offersetImage.getGraphics();<br>g2d.setColor(Color.black);<br>g2d.fillRect(0, 0, width, height);<br>g2d.setColor(Color.white);<br>g2d.drawRect(rect.x, rect.y, rect.width, rect.height); // 画矩形外框<br>g2d.drawString(“分数：” + grade + “       X:” + x + “ Y:” + y, 10, 45);<br>for (int i = c; i &gt; c - length; i–) {<br>if (i &lt; 0) {<br>int r = AX * AY + i;<br>g2d.fillRect(RX + cc[r][0] * A, RY + cc[r][1] * A, A, A);<br>}<br>else {<br>g2d.fillRect(RX + cc[i][0] * A, RY + cc[i][1] * A, A, A);<br>}<br>}<br>g2d.setColor(Color.green);<br>g2d.fillRect(RX + px * A, RY + py * A, A, A);<br>g.drawImage(offersetImage, 0, 0, null);<br>}</p>
+<p>public void createegg() {<br>px = CC.nextInt(AX);<br>py = CC.nextInt(AY);<br>}</p>
+<p>public static void main(String[] args) {<br>new Eatsnake();<br>}<br>}</p>
+<hr>
+<p>但还是没编蛇头碰身子的东东，就这样了，实在懒得弄了😂</p>
+<p>我这个版本虽然有点乱，但是因为我的编码水平和大多新手相近，应该更好理解一点吧。。。</p>
+<hr>
+<p>又改了改，让蛇自己动，看个乐子了，感觉有点吃配置。<del>编蛇头碰身子的东东是不可能做的</del></p>
+<p>import java.awt.Color;<br>import java.awt.Graphics;<br>import java.awt.Graphics2D;<br>import java.awt.Rectangle;<br>import java.awt.image.BufferedImage;<br>import java.util.Random;<br>import javax.swing.JFrame;</p>
+<p>public class AIEatsnake extends JFrame {<br>private static final long serialVersionUID = 1L;<br>public static final int L = 1, R = 2, U = 3, D = 4, SLEEPTIME = 10, AX = 80, AY = 45, A = 20, RX = 20, RY = 50;<br>//    AX为横向格子个数，A为格子边长，RX为窗口框到矩形框的横向距离<br>//    SLEEPTIME调整刷新时间，调高以缓解运行压力&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>Random CC = new Random();<br>int keyboard = R, rwidth = AX * A, rheight = AY * A, width = rwidth + 2 * RX, height = rheight + RY + RX;<br>int x = AX / 3, y = AY / 2, length = 1, grade = 0, c = 0, px = 0, py = 0;</p>
+<p>//int max = 50;<br>int max = AX * AY;<br>//    这里的“AX * AY”是蛇的长度上限，可以自定一个&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</p>
+<p>int cc[][] = new int[max][2];<br>BufferedImage offersetImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);<br>Rectangle rect = new Rectangle(RX, RY, AX * A, AY * A);<br>//    矩形外框参数</p>
+<p>public AIEatsnake() {<br>createegg();<br>new Thread(new Thread1()).start();<br>//    新建一个线程“Thread1”用于一直循环<br>setBounds(0, 0, width, height);<br>//    等同于this.setBounds(0, 0, width,height);this关键字是用来调用当前类的方法，不写this编译器会自动补上<br>setTitle(“贪吃蛇 BY:CC2001”);<br>setDefaultCloseOperation(EXIT_ON_CLOSE);<br>setVisible(true);<br>}</p>
+<p>class Thread1 implements Runnable {<br>public void run() {<br>while (true) {<br>try {<br>Thread.sleep(SLEEPTIME);<br>c += 1;<br>if (c &lt; max) {<br>cc[c][0] = x;<br>cc[c][1] = y;<br>} else {<br>cc[0][0] = x;<br>cc[0][1] = y;<br>c = 0;<br>}<br>if (x == AX || y == AY || x &lt; 0 || y &lt; 0) {<br>grade = 0;<br>x = AX / 3;<br>y = AY / 2;<br>length = 1;<br>keyboard = R;<br>c = 1;<br>}</p>
+<p>if (x == px) {<br>if (y &lt; py) {<br>keyboard = D;<br>} else {<br>keyboard = U;<br>}<br>} else if (x &lt; px) {<br>keyboard = R;<br>} else {<br>keyboard = L;<br>}<br>//    让蛇自己动的代码<br>switch (keyboard) {<br>case D:<br>y += 1;<br>break;<br>case U:<br>y -= 1;<br>break;<br>case L:<br>x -= 1;<br>break;<br>case R:<br>x += 1;<br>break;<br>}<br>if (x == px &amp;&amp; y == py) {<br>createegg();<br>grade += 10;<br>if (length &lt;= max)<br>length += 1;<br>}<br>repaint();<br>System.out.println(c + “ x:” + cc[c][0] + “ y:” + cc[c][1]);<br>} catch (InterruptedException e) {<br>e.printStackTrace();<br>}<br>}<br>}<br>}</p>
+<p>public void paint(Graphics g) {</p>
+<p>Graphics2D g2d = (Graphics2D) offersetImage.getGraphics();<br>g2d.setColor(Color.black);<br>g2d.fillRect(0, 0, width, height);<br>g2d.setColor(Color.white);<br>g2d.drawRect(rect.x, rect.y, rect.width, rect.height); // 画矩形外框<br>g2d.drawString(“分数：” + grade + “       X:” + x + “ Y:” + y, 10, 45);<br>g2d.setColor(Color.green);<br>for (int i = c; i &gt; c - length; i–) {<br>if (i &lt; 0) {<br>int r = max + i;<br>g2d.fillRect(RX + cc[r][0] * A, RY + cc[r][1] * A, A, A);<br>} else {<br>g2d.fillRect(RX + cc[i][0] * A, RY + cc[i][1] * A, A, A);<br>}<br>}<br>g2d.setColor(Color.white);<br>g2d.fillRect(RX + x * A, RY + y * A, A, A);</p>
+<p>g2d.setColor(Color.yellow);<br>g2d.fillRect(RX + px * A, RY + py * A, A, A);<br>g.drawImage(offersetImage, 0, 0, null);<br>}</p>
+<p>public void createegg() {<br>px = CC.nextInt(AX);<br>py = CC.nextInt(AY);<br>}</p>
+<p>public static void main(String[] args) {<br>new AIEatsnake();<br>}<br>}</p>
+<p>还是挺有意思的东东😁</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+  
+  <div>
+    
+ </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/25/%E5%8D%A1mc%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84bug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -556,178 +843,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CC2001">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/" itemprop="url">游戏文件解包</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-09T16:32:13+08:00">
-                2021-01-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>玩2077时，发现电台里一个歌很嘚。看了看游戏文件，各种东东都是打上包了的，没法直接看（大多数游戏应该都是这样吧）。于是去网上找办法，康康怎么把包给解开。</p>
-<img src="/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/bao.jpg" class="" title=".archive文件">
-
-<p>最开始找到的是一个国外的大佬写的（脚本吧？），用quickbms执行一下，就把.archive文件转到了一群.bin文件，但我还是没法使啊（对这种东东一窍不通的）。</p>
-<p>我的理解是游戏资源经过转码都搞进了一个十六进制的包（可以用HxD（一个十六进制编辑器）打开康康），只有经过转码，才能把它转成可以其他软件可以读懂的大白话。然而大白话有了，我不知道怎么播放大白话也没用（估计还得转一次码）。</p>
-<p>之后搜到了一些用软件提取的教程，还是比较适合我这种小白的。第一个用的是Extractor（一个专门解包的软件），直接可以把里面的东西提出来。</p>
-<img src="/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/Extractor.jpg" class="" title="好强的软件">
-
-<p>但还是不能听，这时要用一个软件ww2ogg “一个可以把wem音频文件转换为ogg的小工具。wem是一个实时游戏音频引擎输出的格式，此音频不能直接播放，转换为ogg就可以被普通播放器播放。”</p>
-<p>把下好的一群文件都拖到你你要转换的文件的同一文件夹，点一下.bat文件，就可以了。</p>
-<img src="/2021/01/09/%E6%B8%B8%E6%88%8F%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8C%85/ww2ogg019.jpg" class="" title="把它们都拖走">
-
-<p>但最终还是没找到那首歌，能找到的音质也不太好。还是去网易云的电台里来得痛快😥</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-  
-  <div>
-    
- </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-    
   </section>
 
   
@@ -778,7 +893,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
