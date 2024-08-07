@@ -6,11 +6,12 @@
 
 // const noteBlocks = [];
 
-function loadNBS(file, callback) {
+function loadNBS(file) {
     const reader = new FileReader();
     reader.onload = function () {
         convert(reader.result);
-        callback();
+        songTitle = file.name.slice(0, -4);
+        loadDone();
     }
     reader.readAsArrayBuffer(file);
 }
@@ -147,6 +148,7 @@ class NoteBlock {
 }
 
 // ==================== Website-use Start====================
+document.getElementById("result-text")
 const noteBlockMap = new Map();
 const instrumentSet = new Set();
 const range_start = document.getElementById("range_start");
@@ -161,7 +163,7 @@ for (let i = 0; i <= 15; i++) {
     });
 }
 const modeChooses = document.getElementsByName("mode");
-for (let i = 0; i < 2; i++) {
+for (let i = 0; i < modeChooses.length; i++) {
     const choose = modeChooses[i];
     choose.addEventListener("change", function () {
         if (choose.checked) {
@@ -172,6 +174,9 @@ for (let i = 0; i < 2; i++) {
 
 let modeChoose = -1;
 let instrumentChoose = -1;
+let songTitle = "";
+let result_start = "";
+let result_end = "";
 
 function reset() {
     for (let i = 0; i <= 15; i++) {
@@ -221,20 +226,24 @@ function initRangeChoose() {
 }
 
 function initModeChoose() {
-    for (let i = 0; i < 2; i++) {
+    let checked = 0;
+    for (let i = 0; i < modeChooses.length; i++) {
         modeChooses[i].removeAttribute("disabled");
+        if (modeChooses[i].checked) {
+            checked = i;
+        }
     }
-    modeChooses[0].checked = true;
-    modeChoose = 0;
+    modeChooses[checked].checked = true;
+    modeChoose = checked;
 }
 
 function setModeChoose(mode) {
     modeChoose = mode;
     switch (mode) {
-        case 0:
+        case 0 | 1:
             initRangeChoose();
             break;
-        case 1:
+        case 2:
             range_end.value = range_start.value;
             break;
     }
@@ -250,7 +259,7 @@ function loadOneInstrument(instrument) {
     let tick = 0;
 
     for (const noteBlock of noteBlockMap.get(instrument)) {
-        while (tick < noteBlock.tick) {
+        while (tick < noteBlock["tick"]) {
             tick++;
             if (tick % 64 === 0) {
                 musicBoxCodes.push(musicBoxCode);
@@ -259,20 +268,33 @@ function loadOneInstrument(instrument) {
                 musicBoxCode += ".";
             }
         }
-        musicBoxCode += noteBlock.key;
+        musicBoxCode += noteBlock["key"];
     }
     musicBoxCodes.push(musicBoxCode);
 
     return musicBoxCodes
 }
 
-function summonBookCode(musicBoxCodes, instrument) {
-    const instrumentName = ["竖琴(Harp)", "贝斯(Bass)", "底鼓(Bass drum)", "小军鼓(Snare)", "击鼓沿(Hat)", "吉他(Guitar)", "长笛(Flute)", "铃铛(Bell)", "管钟(Chime)", "木琴(Xylophone)", "铁木琴(Iron xylophone)", "牛铃(Cow bell)", "迪吉里杜管(Didgeridoo)", "比特(Bit)", "班卓琴(Banjo)", "扣弦(Pling)"][instrument];
+function getBookName() {
+    const instrumentName = ["竖琴(Harp)", "贝斯(Bass)", "底鼓(Bass drum)", "小军鼓(Snare)", "击鼓沿(Hat)", "吉他(Guitar)", "长笛(Flute)", "铃铛(Bell)", "管钟(Chime)", "木琴(Xylophone)", "铁木琴(Iron xylophone)", "牛铃(Cow bell)", "迪吉里杜管(Didgeridoo)", "比特(Bit)", "班卓琴(Banjo)", "扣弦(Pling)"][instrumentChoose];
+    return (songTitle + "-" + instrumentName).replace(/\s+/g, "_");
+}
+
+function summonBookCodeOld(musicBoxCodes) {
     let bookCode = "/give @p minecraft:writable_book{\"pages\":[";
     for (const musicBoxCode of musicBoxCodes) {
         bookCode += "\"" + musicBoxCode + "\",";
     }
-    bookCode += "],\"display\":{\"Name\":'{\"text\":\"" + instrumentName + "\"}'}}";
+    bookCode += "],\"display\":{\"Name\":'{\"text\":\"" + getBookName() + "\"}'}}";
+    return bookCode;
+}
+
+function summonBookCodeNew(musicBoxCodes) {
+    let bookCode = "/give @p minecraft:writable_book[minecraft:writable_book_content={pages:[";
+    for (const musicBoxCode of musicBoxCodes) {
+        bookCode += "{raw:\"" + musicBoxCode + "\"},";
+    }
+    bookCode += "]},minecraft:custom_name=\"" + getBookName() + "\"]";
     return bookCode;
 }
 
@@ -285,25 +307,48 @@ function start() {
 
     switch (modeChoose) {
         case 0:
-            res = [summonBookCode(res, instrumentChoose)];
+            res = [summonBookCodeOld(res)];
+            break;
+        case 1:
+            res = [summonBookCodeNew(res)];
             break;
     }
 
     document.getElementById("result-text").value = res.join("\n");
+    result_start = range_start.value;
+    result_end = range_end.value;
 
-    if (range_start.value === range_end.value) {
-        range_start.value = Number(range_start.value) + 1;
-        range_end.value = Number(range_end.value) + 1;
+    if (result_start === result_end) {
+        range_start.value = Number(result_start) + 1;
+        range_end.value = Number(result_end) + 1;
     }
 }
 
-function copy() {
-    if (instrumentChoose === -1 || range_start.value === "" || range_end.value === "" || modeChoose === -1) {
+function copy(x, y) {
+    if (instrumentChoose === -1 || result_start === "" || result_end === "" || modeChoose === -1) {
         return;
     }
 
     const copyText = document.getElementById("result-text");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(copyText.value).then();
+    navigator.clipboard.writeText(copyText.value).then(() => {
+        let oldMessage = document.getElementById("copy-message");
+        if (oldMessage !== null) {
+            document.body.removeChild(oldMessage);
+        }
+
+        const copyMessage = document.createElement("div");
+        copyMessage.id = "copy-message";
+        copyMessage.innerText = "复制成功!";
+        if (modeChoose > 1) {
+            // 逐页模式
+            copyMessage.innerText += " [" + result_start + ", " + result_end + "]";
+        }
+        document.body.appendChild(copyMessage);
+
+        setTimeout(() => {
+            if (document.getElementById("copy-message") === copyMessage) {
+                document.body.removeChild(copyMessage);
+            }
+        }, 1500);
+    });
 }
