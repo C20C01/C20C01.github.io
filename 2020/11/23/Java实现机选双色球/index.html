@@ -38,6 +38,8 @@
 
 
 
+  <meta name="msvalidate.01" content="62E7FE42635627FA5E71FB88517C6268" />
+
 
 
 
@@ -313,17 +315,6 @@
 
           
           
-             <span id="/2020/11/23/Java%E5%AE%9E%E7%8E%B0%E6%9C%BA%E9%80%89%E5%8F%8C%E8%89%B2%E7%90%83/" class="leancloud_visitors" data-flag-title="Java实现机选双色球">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -573,13 +564,13 @@ public class TwoColorBall {
             <div class="links-of-author motion-element">
                 
                   <span class="links-of-author-item">
-                    <a href="https://github.com/C20C01" target="_blank" title="CC's GitHub">
-                      CC's GitHub</a>
+                    <a href="https://github.com/C20C01" target="_blank" title="GitHub">
+                      GitHub</a>
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="https://space.bilibili.com/22168654" target="_blank" title="CC's BiliBili">
-                      CC's BiliBili</a>
+                    <a href="https://space.bilibili.com/22168654" target="_blank" title="BiliBili">
+                      BiliBili</a>
                   </span>
                 
             </div>
@@ -620,14 +611,20 @@ public class TwoColorBall {
 </div>
 
 
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a></div>
 
 
 
 
-
-
-
-
+<!--
 <div class="powered-by">
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <span id="busuanzi_container_site_uv">
@@ -638,6 +635,7 @@ public class TwoColorBall {
         本站访问量: <span id="busuanzi_value_site_pv"></span>
     </span>
 </div>
+-->
         
 
 
@@ -806,7 +804,7 @@ public class TwoColorBall {
         avatar:'mm',
         meta:guest,
         pageSize:'10' || 10,
-        visitor: true
+        visitor: false
     });
   </script>
 
@@ -842,7 +840,7 @@ public class TwoColorBall {
       document.title = "[404 not found]";
       clearTimeout(titleTime);
     } else {
-      document.title = "(>ω<) 哈哈哈 上当了吧~";
+      document.title = "(>ω<)";
       titleTime = setTimeout(function() {
         document.title = OriginTitile;
       }, 5000);
