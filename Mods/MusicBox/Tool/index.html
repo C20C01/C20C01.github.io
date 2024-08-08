@@ -1,139 +1,144 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN, en-US">
 <head>
     <meta charset="UTF-8">
-    <title>nbs文件导出工具</title>
+    <title>Music Box Tool</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
     <link type="text/css" rel="stylesheet" href="main.css">
+    <script src="i18n.js"></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 <body>
 <div id="container">
     <header>
-        <h1>nbs文件导出工具</h1>
+        <h1><span accesskey="title">Loading...</span></h1>
+        <label for="lanSwitcher">🌐
+            <select id="lanSwitcher" onchange="switchLang(this.value)"></select>
+        </label>
     </header>
 
     <div id="left-area">
         <div class="choose-area">
             <div class="content">
-                <p><b>乐器(音色)</b></p>
+                <p><b><span accesskey="instrument"></span></b></p>
                 <label>
                     <input type="radio" name="instrument" id="choose0" disabled="disabled">
-                    <span>竖琴(Harp)</span>
+                    <span accesskey="harp"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose1" disabled="disabled">
-                    <span>贝斯(Bass)</span>
+                    <span accesskey="bass"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose2" disabled="disabled">
-                    <span>底鼓(Bass drum)</span>
+                    <span accesskey="bassDrum"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose3" disabled="disabled">
-                    <span>小军鼓(Snare)</span>
+                    <span accesskey="snare"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose4" disabled="disabled">
-                    <span>击鼓沿(Hat)</span>
+                    <span accesskey="hat"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose5" disabled="disabled">
-                    <span>吉他(Guitar)</span>
+                    <span accesskey="guitar"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose6" disabled="disabled">
-                    <span>长笛(Flute)</span>
+                    <span accesskey="flute"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose7" disabled="disabled">
-                    <span>铃铛(Bell)</span>
+                    <span accesskey="bell"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose8" disabled="disabled">
-                    <span>管钟(Chime)</span>
+                    <span accesskey="chime"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose9" disabled="disabled">
-                    <span>木琴(Xylophone)</span>
+                    <span accesskey="xylophone"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose10" disabled="disabled">
-                    <span>铁木琴(Iron xylophone)</span>
+                    <span accesskey="ironXylophone"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose11" disabled="disabled">
-                    <span>牛铃(Cow bell)</span>
+                    <span accesskey="cowBell"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose12" disabled="disabled">
-                    <span>迪吉里杜管(Didgeridoo)</span>
+                    <span accesskey="didgeridoo"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose13" disabled="disabled">
-                    <span>比特(Bit)</span>
+                    <span accesskey="bit"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose14" disabled="disabled">
-                    <span>班卓琴(Banjo)</span>
+                    <span accesskey="banjo"></span>
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="instrument" id="choose15" disabled="disabled">
-                    <span>扣弦(Pling)</span>
+                    <span accesskey="pling"></span>
                 </label>
             </div>
         </div>
 
         <div class="choose-area">
             <div class="content">
-                <p><b>导出方式</b></p>
+                <p><b><span accesskey="exportMethod"></span></b></p>
 
                 <label>
                     <input type="radio" name="mode" id="mode0" disabled="disabled">
-                    <span>命令(1.20)</span>
+                    <span accesskey="command"></span>(1.20)
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="mode" id="mode1" disabled="disabled">
-                    <span>命令(1.21)</span>
+                    <span accesskey="command"></span>(1.21)
                 </label>
                 <br>
                 <label>
                     <input type="radio" name="mode" id="mode2" disabled="disabled">
-                    <span>逐页导出</span>
+                    <span accesskey="pageByPage"></span>
                 </label>
             </div>
         </div>
 
         <div class="choose-area">
             <div class="content">
-                <p><b>导出区间</b> (闭区间)</p>
+                <p><b><span accesskey="exportRange"></span></b></p>
                 <label>
-                    起点：
                     <input type="number" name="range" id="range_start" min="1" value="1">
+                    (<span accesskey="from"></span>)
                 </label>
                 <br>
                 <label>
-                    终点：
                     <input type="number" name="range" id="range_end" min="1" value="64">
+                    (<span accesskey="to"></span>)
                 </label>
             </div>
         </div>
 
-        <input class="choose-area" id="button" type="button" value="开 导 !" onclick="start()">
+        <input class="choose-area" id="button" type="button" onclick="start()">
     </div>
 
     <div id="right-area">
@@ -143,21 +148,22 @@
                     <input type="file" accept=".nbs" onchange="loadNBS(this.files[0])">
                 </label>
 
-                <p class="content"><b>使用说明</b><br>
-                    · 无法加载nbs文件时，请尝试使用<a href="https://opennbs.org/" target="_blank" rel="noopener">新版NBS</a>打开并保存来更新文件版本<br>
-                    · 命令：使用生成的命令直接获取写入乐曲的书与笔(需要OP权限)<br>
-                    · 逐页导出：推荐利用导出区间一次导出一页，一页一复制<br>
-                    · 若区间为一页(起点==终点)，"开导" 后会自动翻到下一页<br>
-                    · 点击结果文本框即可复制导出的文本
+                <p class="content">
+                    <b><span accesskey="tips"></span></b><br>
+                    <span accesskey="tip1"></span><a href="https://opennbs.org/" target="_blank" rel="noopener">[opennbs.org]</a><br>
+                    <span accesskey="tip2"></span><br>
+                    <span accesskey="tip3"></span><br>
+                    <span accesskey="tip4"></span><br>
+                    <span accesskey="tip5"></span><br>
                 </p>
             </div>
         </div>
 
         <div id="result-area">
             <div>
-                <p><b>导出结果</b></p>
+                <p><b><span accesskey="result"></span></b></p>
                 <label for="result-text">
-                    <textarea id="result-text" readonly="readonly" onclick="copy()">供 Minecraft 模组 “纸带八音盒”(https://github.com/C20C01/MusicBox) 使用</textarea>
+                    <textarea id="result-text" readonly="readonly" onclick="copy()"></textarea>
                 </label>
             </div>
         </div>

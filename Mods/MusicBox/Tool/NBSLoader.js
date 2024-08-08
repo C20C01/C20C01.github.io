@@ -148,30 +148,29 @@ class NoteBlock {
 }
 
 // ==================== Website-use Start====================
-document.getElementById("result-text")
 const noteBlockMap = new Map();
 const instrumentSet = new Set();
+const resultBox = document.getElementById("result-text");
 const range_start = document.getElementById("range_start");
 const range_end = document.getElementById("range_end");
 const instrumentChooses = document.getElementsByName("instrument");
 for (let i = 0; i <= 15; i++) {
     const choose = instrumentChooses[i];
-    choose.addEventListener("change", function () {
+    choose.onchange = function () {
         if (choose.checked) {
             setInstrumentChoose(i);
         }
-    });
+    };
 }
 const modeChooses = document.getElementsByName("mode");
 for (let i = 0; i < modeChooses.length; i++) {
     const choose = modeChooses[i];
-    choose.addEventListener("change", function () {
+    choose.onchange = function () {
         if (choose.checked) {
             setModeChoose(i);
         }
-    });
+    }
 }
-
 let modeChoose = -1;
 let instrumentChoose = -1;
 let songTitle = "";
@@ -314,7 +313,7 @@ function start() {
             break;
     }
 
-    document.getElementById("result-text").value = res.join("\n");
+    resultBox.value = res.join("\n");
     result_start = range_start.value;
     result_end = range_end.value;
 
@@ -324,13 +323,12 @@ function start() {
     }
 }
 
-function copy(x, y) {
+function copy() {
     if (instrumentChoose === -1 || result_start === "" || result_end === "" || modeChoose === -1) {
         return;
     }
 
-    const copyText = document.getElementById("result-text");
-    navigator.clipboard.writeText(copyText.value).then(() => {
+    navigator.clipboard.writeText(resultBox.value).then(() => {
         let oldMessage = document.getElementById("copy-message");
         if (oldMessage !== null) {
             document.body.removeChild(oldMessage);
