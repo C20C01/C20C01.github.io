@@ -276,47 +276,33 @@ function loadOneInstrument(instrument) {
 
 function getBookName() {
     const instrumentName = ["竖琴(Harp)", "贝斯(Bass)", "底鼓(Bass drum)", "小军鼓(Snare)", "击鼓沿(Hat)", "吉他(Guitar)", "长笛(Flute)", "铃铛(Bell)", "管钟(Chime)", "木琴(Xylophone)", "铁木琴(Iron xylophone)", "牛铃(Cow bell)", "迪吉里杜管(Didgeridoo)", "比特(Bit)", "班卓琴(Banjo)", "扣弦(Pling)"][instrumentChoose];
-    return (songTitle + "-" + instrumentName).replace(/\s+/g, "_");
+    return (songTitle + "-" + instrumentName).replace(/(['"])/g, '\\$1');
 }
 
-function summonBookCodeOld(musicBoxCodes) {
-    let bookCode = "/give @p minecraft:writable_book{\"pages\":[";
-    for (const musicBoxCode of musicBoxCodes) {
-        bookCode += "\"" + musicBoxCode + "\",";
-    }
-    bookCode += "],\"display\":{\"Name\":'{\"text\":\"" + getBookName() + "\"}'}}";
-    return bookCode;
+function summonOldCommand(musicBoxCodes) {
+    return `/give @p minecraft:writable_book{"display":{"Name":'{"text":"${getBookName()}"}'},"pages":["${musicBoxCodes.join('","')}"]}`;
 }
 
-function summonBookCodeNew(musicBoxCodes) {
-    let bookCode = "/give @p minecraft:writable_book[minecraft:writable_book_content={pages:[";
-    for (const musicBoxCode of musicBoxCodes) {
-        bookCode += "{raw:\"" + musicBoxCode + "\"},";
-    }
-    bookCode += "]},minecraft:custom_name=\"" + getBookName() + "\"]";
-    return bookCode;
+function summonNewCommand(musicBoxCodes) {
+    return `/give @p minecraft:writable_book[minecraft:custom_name="'${getBookName()}'",minecraft:writable_book_content={pages:[{raw:"${musicBoxCodes.join('"},{raw:"')}"}]}]`;
 }
 
 function start() {
     if (instrumentChoose === -1 || range_start.value === "" || range_end.value === "" || modeChoose === -1) {
         return;
     }
-
     let res = loadOneInstrument(instrumentChoose).slice(range_start.value - 1, range_end.value);
-
     switch (modeChoose) {
         case 0:
-            res = [summonBookCodeOld(res)];
+            res = [summonOldCommand(res)];
             break;
         case 1:
-            res = [summonBookCodeNew(res)];
+            res = [summonNewCommand(res)];
             break;
     }
-
     resultBox.value = res.join("\n");
     result_start = range_start.value;
     result_end = range_end.value;
-
     if (result_start === result_end) {
         range_start.value = Number(result_start) + 1;
         range_end.value = Number(result_end) + 1;
