@@ -1,8 +1,9 @@
 :root {
-    --color_a: #0E74B3;
-    --color_b: #42B7FF;
-    --color_d: #B36800;
-    --color_e: #FFA529;
+    --color_1: #0E74B3;
+    --color_2: #42B7FF;
+    --color_3: #B36800;
+    --color_4: #FFA529;
+    --color_5: #F5DEB3FF;
 }
 
 header {
@@ -12,12 +13,12 @@ header {
 }
 
 header select {
-    box-shadow: 2px 2px 4px var(--color_a);
+    box-shadow: 2px 2px 4px var(--color_1);
     border-radius: 5px;
 }
 
 body {
-    background: var(--color_b) url('MusicBox.png') no-repeat right top;
+    background: var(--color_2) url('MusicBox.png') no-repeat right top;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -44,8 +45,8 @@ header {
 
 .choose-area {
     text-align: left;
-    background: var(--color_e);
-    box-shadow: 2px 2px 4px var(--color_d);
+    background: var(--color_4);
+    box-shadow: 2px 2px 4px var(--color_3);
     border-radius: 10px;
     width: 260px;
     margin: 0 0 10% 0;
@@ -59,7 +60,7 @@ header {
     text-align: center;
     height: 60px;
     font-size: 40px;
-    color: var(--color_a);
+    color: var(--color_1);
 }
 
 #upload {
@@ -69,8 +70,8 @@ header {
 
 #upload-area {
     text-align: center;
-    background: var(--color_e);
-    box-shadow: 2px 2px 4px var(--color_d);
+    background: var(--color_4);
+    box-shadow: 2px 2px 4px var(--color_3);
     border-radius: 10px;
     height: 210px;
     width: 650px;
@@ -78,7 +79,7 @@ header {
 
 #upload-area input {
     margin-top: 3%;
-    background: wheat;
+    background: var(--color_5);
 }
 
 #upload-area div {
@@ -106,27 +107,27 @@ input[type="radio"] {
 }
 
 input[type="radio"]:disabled {
-    border: 2px solid var(--color_d);
+    border: 2px solid var(--color_3);
 }
 
 input[type="radio"]:checked {
-    background-color: var(--color_a);
+    background-color: var(--color_1);
 }
 
 input[type="number"] {
-    background: wheat;
+    background: var(--color_5);
 }
 
 textarea {
     width: calc(100vw - 360px);
     height: calc(95vh - 360px);
-    background: wheat;
+    background: var(--color_5);
     font-size: 24px;
     resize: none;
 }
 
 #copy-message {
-    background-color: var(--color_a);
+    background-color: var(--color_1);
     color: white;
     font-size: 24px;
     position: fixed;

@@ -47,8 +47,8 @@ const contents = {
     ],
     "result": ["导出结果", "Export Result"],
     "defaultResult": [
-        "将 NBS 文件导出至书与笔，进而制成纸带。想了解更多关于模组\"纸带八音盒\"的信息，请访问: ",
-        "Export NBS file to Book and Quill, then make it into a note grid. Find more about the mod \"Music Box\" at: "
+        "将 NBS 文件导出至书与笔以方便后续使用。访问 https://github.com/C20C01/MusicBox 了解更多关于模组\"纸带八音盒\"的信息。",
+        "Export NBS file to Book and Quill for further use. Visit https://github.com/C20C01/MusicBox to find more about the mod \"Music Box\"."
     ],
 }
 
@@ -77,7 +77,7 @@ function switchLang(lang) {
     const index = langList.indexOf(lang);
     document.title = contents["title"][index];
     document.getElementById("button").value = contents["start"][index];
-    document.getElementById("result-text").value = contents["defaultResult"][index] + "https://github.com/C20C01/MusicBox";
+    document.getElementById("result-text").value = contents["defaultResult"][index];
     for (let span of document.getElementsByTagName("span")) {
         if (span.accessKey in contents) {
             span.innerText = contents[span.accessKey][index];
