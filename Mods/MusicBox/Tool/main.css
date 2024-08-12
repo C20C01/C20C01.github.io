@@ -4,11 +4,15 @@
     --color_3: #B36800;
     --color_4: #FFA529;
     --color_5: #12345678;
+
+    --min-height: 800px;
 }
 
 body {
     background: var(--color_2) url('MusicBox.png') no-repeat right top;
     margin: 0;
+    min-width: 600px;
+    min-height: var(--min-height);
     width: 100%;
     height: 100%;
 }
@@ -43,7 +47,7 @@ header select {
 }
 
 #result-area {
-    height: calc(100vh - 104px);
+    height: max(calc(100vh - 104px), var(--min-height));
     overflow-y: auto;
     word-wrap: anywhere;
     font-size: 22px;
