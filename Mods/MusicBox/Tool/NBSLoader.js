@@ -1,11 +1,8 @@
 /**
- * Load new version NBS file.
+ * Load new version nbs file.
  * @author CC2001
  * @see https://github.com/C20C01
  */
-
-// const noteBlocks = [];
-
 function loadNBS(file) {
     const reader = new FileReader();
     reader.onload = function () {
@@ -49,16 +46,15 @@ function readString(data) {
  */
 function convert(nbsArrayBuffer) {
     const data = Array.from(new Int8Array(nbsArrayBuffer));
-
     reset();
-
     if (handleHeader(data)) handleNoteBlocks(data);
 }
+
 
 function handleHeader(data) {
     const isNewFormat = readShort(data) === 0;
     if (!isNewFormat) {
-        alert("文件加载失败，请确认文件格式是否正确。");
+        alert("Too old to convert!\n文件版本过旧，无法转换！");
         return false;
     }
 
@@ -86,9 +82,7 @@ function handleHeader(data) {
     const loop = readByte(data) === 1;
     const maxLoopCount = readByte(data);
     const loopStartTick = readShort(data);
-
     console.log("Version: " + version, "Vanilla instrument count: " + vanillaInstrumentCount, "Length: " + length, "Layer count: " + layerCount, "Title: " + title, "Author: " + author, "Original author: " + originalAuthor, "Description: " + description, "Tempo: " + tempo, "Auto save: " + autoSave, "Auto save duration: " + autoSaveDuration, "Time signature: " + timeSignature, "Minutes spent: " + minutesSpent, "Left clicks: " + leftClicks, "Right clicks: " + rightClicks, "Blocks added: " + blocksAdded, "Blocks removed: " + blocksRemoved, "MIDI or schematic name: " + midiOrSchematicName, "Loop: " + loop, "Max loop count: " + maxLoopCount, "Loop start tick: " + loopStartTick);
-
     return true;
 }
 
@@ -110,12 +104,9 @@ function handleNoteBlocks(data) {
                 break;
             }
             layer += jumpLayers;
-
             handleOneNoteBlock(data, tick, layer);
         }
     }
-
-    // console.log("Note blocks: " + noteBlocks.length);
 }
 
 function handleOneNoteBlock(data, tick, layer) {
@@ -126,8 +117,6 @@ function handleOneNoteBlock(data, tick, layer) {
     const pitch = readShort(data);
 
     const oneNoteBlock = new NoteBlock(tick, layer, instrument, key, velocity, panning, pitch);
-    // noteBlocks.push(oneNoteBlock);
-
     addOneNoteBlock(oneNoteBlock);
 }
 
@@ -256,37 +245,45 @@ function loadOneInstrument(instrument) {
     return musicBoxCodes
 }
 
-function getBookName() {
+function getBookName(index) {
     const instrumentName = ["竖琴(Harp)", "贝斯(Bass)", "底鼓(Bass drum)", "小军鼓(Snare)", "击鼓沿(Hat)", "吉他(Guitar)", "长笛(Flute)", "铃铛(Bell)", "管钟(Chime)", "木琴(Xylophone)", "铁木琴(Iron xylophone)", "牛铃(Cow bell)", "迪吉里杜管(Didgeridoo)", "比特(Bit)", "班卓琴(Banjo)", "扣弦(Pling)"][instrumentChoose];
-    return (songTitle + "-" + instrumentName).replace(/(['"])/g, '\\$1');
+    let res = songTitle;
+    if (index !== 0) {
+        res += `(${index})`;
+    }
+    res += ` - ${instrumentName}`;
+    return res.replace(/(['"])/g, '\\$1');
 }
 
-function summonOldCommand(musicBoxCodes) {
-    return `/give @p minecraft:writable_book{"display":{"Name":'{"text":"${getBookName()}"}'},"pages":["${musicBoxCodes.join('","')}"]}`;
+function summonOldCommand(musicBoxCodes, index) {
+    return `/give @p minecraft:writable_book{"display":{"Name":'{"text":"${getBookName(index)}"}'},"pages":["${musicBoxCodes.join('","')}"]}`;
 }
 
-function summonNewCommand(musicBoxCodes) {
-    return `/give @p minecraft:writable_book[minecraft:custom_name="'${getBookName()}'",minecraft:writable_book_content={pages:[{raw:"${musicBoxCodes.join('"},{raw:"')}"}]}]`;
+function summonNewCommand(musicBoxCodes, index) {
+    return `/give @p minecraft:writable_book[minecraft:custom_name="'${getBookName(index)}'",minecraft:writable_book_content={pages:[{raw:"${musicBoxCodes.join('"},{raw:"')}"}]}]`;
 }
 
 function start() {
     if (instrumentChoose !== -1 && modeChoose !== -1) {
         let res = loadOneInstrument(instrumentChoose);
-        switch (modeChoose) {
-            case 0:
-                res = [summonOldCommand(res)];
-                break;
-            case 1:
-                res = [summonNewCommand(res)];
-                break;
+        if (modeChoose === 0 || modeChoose === 1) {
+            // command mode
+            let codes = [];
+            let index = 0;
+            let converter = modeChoose === 0 ? summonOldCommand : summonNewCommand;
+            while (index * 64 < res.length) {
+                codes.push(converter(res.slice(index * 64, (index + 1) * 64), index));
+                index++;
+            }
+            res = codes;
         }
         displayResult(res);
     }
 }
 
 function displayResult(lines) {
-    const resulContainer = document.getElementById("result-area");
-    resulContainer.innerHTML = "";
+    const resultContainer = document.getElementById("result-area");
+    resultContainer.innerHTML = "";
 
     lines.forEach((line, index) => {
         const lineElement = document.createElement('div');
@@ -297,8 +294,10 @@ function displayResult(lines) {
         if (index % 2 !== 0) {
             lineElement.style.backgroundColor = "#d7c8a9";
         }
-        resulContainer.appendChild(lineElement);
+        resultContainer.appendChild(lineElement);
     });
+
+    resultContainer.scrollTop = 0;
 }
 
 function copy() {
