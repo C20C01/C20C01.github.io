@@ -178,8 +178,8 @@ class CCNoteBlock {
 
 function addOneNoteBlock(noteBlock) {
     if (noteBlockMap.get(noteBlock.instrument) === undefined) {
-        alert("nbs文件包含自定义音色，无法转换");
-        throw new Error("nbs文件包含自定义音色，无法转换");
+        alert("Custom timbre detected, cannot convert.\n检测到自定义音色，无法转换。");
+        throw new Error("Custom timbre detected!");
     }
     noteBlockMap.get(noteBlock.instrument).push(new CCNoteBlock(noteBlock.tick, noteBlock.key));
     instrumentSet.add(noteBlock.instrument);
