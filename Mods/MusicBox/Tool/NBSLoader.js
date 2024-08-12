@@ -150,9 +150,7 @@ class NoteBlock {
 // ==================== Website-use Start====================
 const noteBlockMap = new Map();
 const instrumentSet = new Set();
-const resultBox = document.getElementById("result-text");
-const range_start = document.getElementById("range_start");
-const range_end = document.getElementById("range_end");
+// const resultBox = document.getElementById("result-text");
 const instrumentChooses = document.getElementsByName("instrument");
 for (let i = 0; i <= 15; i++) {
     const choose = instrumentChooses[i];
@@ -174,8 +172,6 @@ for (let i = 0; i < modeChooses.length; i++) {
 let modeChoose = -1;
 let instrumentChoose = -1;
 let songTitle = "";
-let result_start = "";
-let result_end = "";
 
 function reset() {
     for (let i = 0; i <= 15; i++) {
@@ -202,7 +198,6 @@ function addOneNoteBlock(noteBlock) {
 
 function loadDone() {
     initInstrumentChoose();
-    initRangeChoose();
     initModeChoose();
 }
 
@@ -219,11 +214,6 @@ function initInstrumentChoose() {
     }
 }
 
-function initRangeChoose() {
-    range_start.value = 1;
-    range_end.value = 64;
-}
-
 function initModeChoose() {
     let checked = 0;
     for (let i = 0; i < modeChooses.length; i++) {
@@ -238,14 +228,6 @@ function initModeChoose() {
 
 function setModeChoose(mode) {
     modeChoose = mode;
-    switch (mode) {
-        case 0 | 1:
-            initRangeChoose();
-            break;
-        case 2:
-            range_end.value = range_start.value;
-            break;
-    }
 }
 
 function setInstrumentChoose(instrument) {
@@ -288,51 +270,42 @@ function summonNewCommand(musicBoxCodes) {
 }
 
 function start() {
-    if (instrumentChoose === -1 || range_start.value === "" || range_end.value === "" || modeChoose === -1) {
-        return;
-    }
-    let res = loadOneInstrument(instrumentChoose).slice(range_start.value - 1, range_end.value);
-    switch (modeChoose) {
-        case 0:
-            res = [summonOldCommand(res)];
-            break;
-        case 1:
-            res = [summonNewCommand(res)];
-            break;
-    }
-    resultBox.value = res.join("\n");
-    result_start = range_start.value;
-    result_end = range_end.value;
-    if (result_start === result_end) {
-        range_start.value = Number(result_start) + 1;
-        range_end.value = Number(result_end) + 1;
+    if (instrumentChoose !== -1 && modeChoose !== -1) {
+        let res = loadOneInstrument(instrumentChoose);
+        switch (modeChoose) {
+            case 0:
+                res = [summonOldCommand(res)];
+                break;
+            case 1:
+                res = [summonNewCommand(res)];
+                break;
+        }
+        displayResult(res);
     }
 }
 
-function copy() {
-    if (instrumentChoose === -1 || result_start === "" || result_end === "" || modeChoose === -1) {
-        return;
-    }
+function displayResult(lines) {
+    const resulContainer = document.getElementById("result-area");
+    resulContainer.innerHTML = "";
 
-    navigator.clipboard.writeText(resultBox.value).then(() => {
-        let oldMessage = document.getElementById("copy-message");
-        if (oldMessage !== null) {
-            document.body.removeChild(oldMessage);
+    lines.forEach((line, index) => {
+        const lineElement = document.createElement('div');
+        lineElement.className = "result";
+        lineElement.textContent = line;
+        lineElement.onclick = copy;
+        lineElement.title = index + 1;
+        if (index % 2 !== 0) {
+            lineElement.style.backgroundColor = "#d7c8a9";
         }
-
-        const copyMessage = document.createElement("div");
-        copyMessage.id = "copy-message";
-        copyMessage.innerText = "复制成功!";
-        if (modeChoose > 1) {
-            // 逐页模式
-            copyMessage.innerText += " [" + result_start + ", " + result_end + "]";
-        }
-        document.body.appendChild(copyMessage);
-
-        setTimeout(() => {
-            if (document.getElementById("copy-message") === copyMessage) {
-                document.body.removeChild(copyMessage);
-            }
-        }, 1500);
+        resulContainer.appendChild(lineElement);
     });
+}
+
+function copy() {
+    if (instrumentChoose !== -1 && modeChoose !== -1) {
+        navigator.clipboard.writeText(this.innerText).then(() => {
+            this.style.backgroundColor = "var(--color_5)";
+            this.style.boxShadow = "none";
+        });
+    }
 }

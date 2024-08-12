@@ -3,12 +3,20 @@
     --color_2: #42B7FF;
     --color_3: #B36800;
     --color_4: #FFA529;
-    --color_5: #F5DEB3FF;
+    --color_5: #12345678;
+}
+
+body {
+    background: var(--color_2) url('MusicBox.png') no-repeat right top;
+    margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 header {
     display: flex;
-    align-items: start;
+    padding-left: 10px;
+    height: 80px;
     justify-content: space-between;
 }
 
@@ -17,43 +25,53 @@ header select {
     border-radius: 5px;
 }
 
-body {
-    background: var(--color_2) url('MusicBox.png') no-repeat right top;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
-
 #container {
-    min-width: 1000px;
+    display: flex;
 }
 
-header {
-    text-align: left;
-    padding-left: 10px;
+#left-area {
+    flex: 0;
+    padding: 8px;
+}
+
+#right-area {
+    flex: 1;
+    margin: 24px 0 0 16px;
+    box-shadow: none;
+    background: var(--color_5);
+    border-radius: 0;
+}
+
+#result-area {
+    height: calc(100vh - 104px);
+    overflow-y: auto;
+    word-wrap: anywhere;
+    font-size: 22px;
+    outline: var(--color_5) 2px dashed;
+    box-shadow: 0 0 10px var(--color_5);
 }
 
 .content {
-    padding: 1% 3% 3% 3%;
+    height: 100%;
+    padding: 4px 8px;
     line-height: 1.5;
 }
 
-#left-area, #right-area {
-    float: left;
-    padding: 0 0 0 1vw;
+.content b {
+    font-size: 20px;
 }
 
-.choose-area {
+.box-area {
     text-align: left;
+    width: 100%;
     background: var(--color_4);
     box-shadow: 2px 2px 4px var(--color_3);
     border-radius: 10px;
-    width: 260px;
-    margin: 0 0 10% 0;
+    margin: 16px 0;
 }
 
-.choose-area p {
-    margin: 2% 0 3% 1%;
+.box-area p {
+    margin: 4px 0;
 }
 
 #button {
@@ -63,45 +81,14 @@ header {
     color: var(--color_1);
 }
 
-#upload {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-#upload-area {
-    text-align: center;
-    background: var(--color_4);
-    box-shadow: 2px 2px 4px var(--color_3);
-    border-radius: 10px;
-    height: 210px;
-    width: 650px;
-}
-
-#upload-area input {
-    margin-top: 3%;
-    background: var(--color_5);
-}
-
-#upload-area div {
-    padding: 0 20px 10px 20px;
-}
-
-#upload-area p {
-    text-align: left;
-    margin: 1%;
-    width: 560px;
-}
-
 input[type="radio"] {
     appearance: none;
     border-radius: 10px;
     width: 18px;
     height: 18px;
-
     border: 2px solid white;
     transition: 0.2s all linear;
     margin-right: 5px;
-
     position: relative;
     top: 4px;
 }
@@ -114,27 +101,11 @@ input[type="radio"]:checked {
     background-color: var(--color_1);
 }
 
-input[type="number"] {
-    background: var(--color_5);
-}
-
-textarea {
-    width: calc(100vw - 360px);
-    height: calc(95vh - 360px);
-    background: var(--color_5);
-    font-size: 24px;
-    resize: none;
-}
-
-#copy-message {
-    background-color: var(--color_1);
-    color: white;
-    font-size: 24px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.result {
     padding: 10px;
-    text-align: center;
-    z-index: 10;
+    margin: 16px 20px;
+    user-select: none;
+    background: #fbeed4;
+    box-shadow: #aca088 2px 2px 4px;
+    border-radius: 8px;
 }
