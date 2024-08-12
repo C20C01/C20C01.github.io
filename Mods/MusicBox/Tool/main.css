@@ -38,7 +38,7 @@ header select {
     flex: 1;
     margin: 24px 0 0 16px;
     box-shadow: none;
-    background: var(--color_5);
+    background: none;
     border-radius: 0;
 }
 
@@ -47,8 +47,9 @@ header select {
     overflow-y: auto;
     word-wrap: anywhere;
     font-size: 22px;
+    background: var(--color_5);
+    box-shadow: 0 0 8px var(--color_5);
     outline: var(--color_5) 2px dashed;
-    box-shadow: 0 0 10px var(--color_5);
 }
 
 .content {
