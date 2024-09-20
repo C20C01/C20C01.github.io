@@ -245,22 +245,22 @@ function loadOneInstrument(instrument) {
     return musicBoxCodes
 }
 
-function getBookName(index) {
+function getBookName(index, prefix) {
     const instrumentName = ["竖琴(Harp)", "贝斯(Bass)", "底鼓(Bass drum)", "小军鼓(Snare)", "击鼓沿(Hat)", "吉他(Guitar)", "长笛(Flute)", "铃铛(Bell)", "管钟(Chime)", "木琴(Xylophone)", "铁木琴(Iron xylophone)", "牛铃(Cow bell)", "迪吉里杜管(Didgeridoo)", "比特(Bit)", "班卓琴(Banjo)", "扣弦(Pling)"][instrumentChoose];
-    let res = songTitle;
+    let res = songTitle.length > 64 ? songTitle.slice(0, 64) + "..." : songTitle;
     if (index !== 0) {
         res += `(${index})`;
     }
     res += ` - ${instrumentName}`;
-    return res.replace(/(['"])/g, '\\$1');
+    return res.replace(/(['"])/g, `${prefix}$1`);
 }
 
 function summonOldCommand(musicBoxCodes, index) {
-    return `/give @p minecraft:writable_book{"display":{"Name":'{"text":"${getBookName(index)}"}'},"pages":["${musicBoxCodes.join('","')}"]}`;
+    return `/give @p minecraft:writable_book{"display":{"Name":'{"text":"${getBookName(index, "\\")}"}'},"pages":["${musicBoxCodes.join('","')}"]}`;
 }
 
 function summonNewCommand(musicBoxCodes, index) {
-    return `/give @p minecraft:writable_book[minecraft:custom_name="'${getBookName(index)}'",minecraft:writable_book_content={pages:[{raw:"${musicBoxCodes.join('"},{raw:"')}"}]}]`;
+    return `/give @p minecraft:writable_book[minecraft:custom_name="'${getBookName(index, "\\\\")}'",minecraft:writable_book_content={pages:[{raw:"${musicBoxCodes.join('"},{raw:"')}"}]}]`;
 }
 
 function start() {
