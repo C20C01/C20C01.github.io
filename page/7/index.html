@@ -255,6 +255,356 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CC2001">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/" itemprop="url">使用selenium自动化播课</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-30T21:27:08+08:00">
+                2022-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/05/30/%E4%BD%BF%E7%94%A8selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%92%AD%E8%AF%BE/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="警告：使用脚本刷课是不对的，好孩子不要这样做。"><a href="#警告：使用脚本刷课是不对的，好孩子不要这样做。" class="headerlink" title="警告：使用脚本刷课是不对的，好孩子不要这样做。"></a>警告：使用脚本刷课是不对的，好孩子不要这样做。</h1><p>正好前些日子课上让学网络爬虫，就了解到了selenium————一个能实现网页自动化的库，Java、Py都能使。正好想到学习通上那无聊的网络选修课还不少没看，就准备来实操一下练练手。</p>
+<p>我之前没发现java也行，就去py里搞了，还专门下了个PyCharm（JB家的东西真不错）。我这里配置库靠IDE，打完“import selenium”后就提示我自动安装了，浏览器引擎使得是Edge，去官网下就行。</p>
+<h1 id="程序："><a href="#程序：" class="headerlink" title="程序："></a>程序：</h1><pre><code>import random
+import sys
+import time
+
+from selenium import webdriver
+
+# Powered By CC2001
+# 学习通网课自动看视频，默认为每节课的第一个项目就是视频，如果不是可以自行修改“learn”函数
+
+phone = &apos;&apos;  # 填入学习通手机号
+password = &apos;&apos;  # 填入学习通密码
+headLess = True  # 无头模式（不显示渲染浏览器），有头还是更稳定一些
+
+
+def changeToIframeByX(xpath):
+    iframe = driver.find_element_by_xpath(xpath)
+    driver.switch_to.frame(iframe)  # 切换到iframe
+
+
+def changeToIframeByID(frameID):
+    iframe = driver.find_elements_by_id(frameID)
+    driver.switch_to.frame(iframe[-1])  # 切换到iframe
+
+
+def sleep():
+    time.sleep(round(random.random(), 1) + 0.5)
+
+
+def timeToS(timeStr):
+    t = timeStr.strip().split(&apos;:&apos;)
+    if len(t) == 2:
+        mm, ss = t
+        return int(mm) * 60 + int(ss)
+    elif len(t) == 3:
+        hh, mm, ss = t
+        return int(hh) * 3600 + int(mm) * 60 + int(ss)
+
+
+def getTime():
+    return time.strftime(&apos;[%H:%M:%S]&apos;, time.localtime())
+
+
+if headLess:
+    EDGE = {
+        &quot;browserName&quot;: &quot;MicrosoftEdge&quot;,
+        &quot;version&quot;: &quot;&quot;,
+        &quot;platform&quot;: &quot;WINDOWS&quot;,
+        &quot;ms:edgeOptions&quot;: {
+            &apos;extensions&apos;: [],
+            &apos;args&apos;: [
+                &apos;--headless&apos;,
+            ]}
+    }
+else:
+    EDGE = None
+
+driver = webdriver.Edge(executable_path=&apos;msedgedriver.exe&apos;, capabilities=EDGE)  # executable_path为下载的Edge引擎的路径
+driver.set_window_rect(-1000, -1000, 1000, 1000)
+driver.implicitly_wait(5)
+driver.get(&apos;https://passport2.chaoxing.com/login?fid=&amp;newversion=true&apos;)  # 学习通登录界面
+
+if phone == &apos;&apos;:
+    phone = input(&quot;学习通绑定的手机号：&quot;)
+driver.find_element_by_id(&apos;phone&apos;).send_keys(phone)
+
+if password == &apos;&apos;:
+    password = input(&quot;学习通密码：&quot;)
+driver.find_element_by_id(&apos;pwd&apos;).send_keys(password)
+
+sleep()
+driver.find_element_by_id(&apos;loginBtn&apos;).click()
+
+changeToIframeByX(&apos;/html/body/div[2]/div[2]/iframe&apos;)
+
+subjects = driver.find_element_by_xpath(
+    &apos;/html/body/div[1]/div/div/div[2]/div/div[2]/div[2]/ul&apos;).find_elements_by_tag_name(&apos;li&apos;)
+
+notNullSubjects = []
+for s in subjects:
+    if s.text != &quot;&quot;:
+        notNullSubjects.append(s)
+
+for index, s in enumerate(notNullSubjects):
+    print(&quot;[%d]:&quot; % index, s.text.replace(&quot;\n&quot;, &quot; &quot;))
+print(&quot;---------------------------------------------------&quot;)
+
+inp = input(&quot;输入科目序号：&quot;)
+try:
+    inp = int(inp)
+except ValueError:
+    print(&quot;格式错误，即将退出&quot;)
+    driver.quit()
+    sys.exit()
+else:
+    notNullSubjects[inp].find_element_by_tag_name(&apos;a&apos;).click()
+    notNullSubjects.clear()
+
+handles = driver.window_handles  # 获取当前全部窗口句柄集合
+for handle in handles:  # 切换窗口
+    if handle != driver.current_window_handle:
+        driver.close()  # 关闭第一个窗口
+        driver.switch_to.window(handle)  # 切换到第二个窗口
+driver.minimize_window()
+driver.find_element_by_xpath(&apos;/html/body/div[1]/div[3]/div[1]/div/ul[1]/li[2]/a&apos;).click()
+
+sleep()
+changeToIframeByID(&apos;frame_content-zj&apos;)
+classes = []
+for x in driver.find_elements_by_xpath(&apos;/html/body/div[1]/div/div[2]/div[2]&apos;):
+    for index, xx in enumerate(x.find_elements_by_tag_name(&apos;li&apos;)):
+        classes.append(xx)
+        print(&quot;[%d]:&quot; % index, xx.text.replace(&quot;\n&quot;, &quot; 任务数：&quot;))
+classes.clear()
+driver.switch_to.parent_frame()
+print(&quot;---------------------------------------------------&quot;)
+
+
+def learn(o):
+    global driver
+    sleep()
+    changeToIframeByID(&apos;frame_content-zj&apos;)
+    for c in driver.find_elements_by_xpath(&apos;/html/body/div[1]/div/div[2]/div[2]&apos;):
+        for index1, cc in enumerate(c.find_elements_by_tag_name(&apos;li&apos;)):
+            if index1 == o:
+                cc.click()
+    sleep()
+    driver.set_window_rect(-1000, -1000, 1000, 1000)
+    changeToIframeByX(&apos;/html/body/div[4]/div/div[3]/div[5]/iframe&apos;)
+    changeToIframeByX(&apos;/html/body/div/div/p[1]/div/iframe&apos;)
+    driver.find_element_by_tag_name(&apos;button&apos;).click()
+    sleep()
+    print(&apos;%s正在播放编号为“%d”的课程&apos; % (getTime(), o), end=&apos;: &apos;)
+    time.sleep(needTime() + 3)
+    print(&apos;%s编号为“%d”的课程已播放完毕&apos; % (getTime(), o))
+    driver.switch_to.parent_frame()
+    driver.switch_to.parent_frame()
+    driver.find_element_by_xpath(&apos;/html/body/div[4]/div/div[1]/a&apos;).click()
+    sleep()
+
+
+def needTime():
+    try:
+        sleep()
+        timeNow = driver.find_element_by_xpath(&apos;/html/body/div/div[4]/div/div[5]/div[2]/span[2]&apos;).text
+        timeStop = driver.find_element_by_xpath(&apos;/html/body/div/div[4]/div/div[5]/div[4]/span[2]&apos;).text
+        n = timeToS(timeStop) - timeToS(timeNow)
+    except TypeError:
+        print(&apos;进度获取失败，准备退出当前课程&apos;)
+        return 1
+    else:
+        if n &gt; 0:
+            print(&apos;%s/%s，需要%d秒&apos; % (timeNow, timeStop, n))
+        driver.minimize_window()
+        return n
+
+
+print(&quot;可输入一个编号，或输入两个中间夹着“:”的编号（“a:b”代表[a,b]）。输入其他格式可退出程序。&quot;)
+inp = input(&quot;输入课程序号：&quot;)
+if &quot;:&quot; in inp:
+    inp = inp.split(&quot;:&quot;)
+else:
+    inp = inp.split(&quot;：&quot;)
+if len(inp) == 1:
+    try:
+        s = int(inp[0])
+    except ValueError:
+        print(&quot;无法识别，即将退出&quot;)
+    else:
+        learn(s)
+
+elif len(inp) == 2:
+    s, e = inp
+    try:
+        s = int(s)
+        e = int(e)
+    except ValueError:
+        print(&quot;无法识别，即将退出&quot;)
+    else:
+        if s &gt; e:
+            temp = s
+            s = e
+            e = temp
+        for i in range(s, e + 1):
+            learn(i)
+        print(&quot;%s%d到%d所有课程播放完毕&quot; % (getTime(), s, e))
+
+driver.quit()</code></pre><hr>
+<h1 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h1><p>我没使过太久Python，写的可能有点怪，但还是差不多能跑的。逻辑上很简单，就是和脚本一样，得照着网页提前把处理方式录入好。善用“F12”，编起来没啥难度。需要使用的元素在iframe里的需要先切进去，切进去后的环境就是新的网页，用外面的东西时记得切出来。</p>
+<p>科技改变生活😍</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+  
+  <div>
+    
+ </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/18/Floo-Powder/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -601,207 +951,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/25/mCClient-1-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CC2001">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/04/25/mCClient-1-4/" itemprop="url">mCClient_1.4</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-04-25T07:55:30+08:00">
-                2022-04-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2022/04/25/mCClient-1-4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2022/04/25/mCClient-1-4/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>与第一个版本出来已经过去了小两个月了，我一直在断断续续地往里面添东西，现在应该算是又到了一个小阶段，来总结一下更新，发一下新的版本。关于mCClient的介绍请看 <a href="https://c20c01.github.io/2022/02/23/mCClient/" title="" target="">&lt;mCClient_1.0&gt;</a> </p>
-<h1 id="mCClient-1-4"><a href="#mCClient-1-4" class="headerlink" title="mCClient_1.4"></a>mCClient_1.4</h1><h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><ol>
-<li>增加了对聊天json的解析，聊天更方便了。不用再看着一大串json聊天了。</li>
-<li>增加了对服务器信息json的解析，观感更棒了。</li>
-<li>增加了暂存聊天功能，在命令模式中（/cc），服务器发送过来的消息会被暂存，省的正打着字被其他消息给顶差了行。<br>在退出命令模式后，暂存的消息会全部输出出来。</li>
-<li>增加了时间显示，显示消息产生的时间，看聊天记录更爽了。</li>
-<li>增加了对一些异常的捕捉，程序应该更稳了，就算炸掉应该也能找到原因。</li>
-<li>增加了“send”功能：在命令模式中发送消息，与第3点相配合。</li>
-<li>增加了文本切割功能，避免一次发送的文本字节数&gt;256被服务器踢出，现在会把过长的文本分成若干部分，依次发出。<br>仍存在漏洞，依次发送未设置延迟，导致过短时间发送过多次消息还是会被踢出：“垃圾信息”。</li>
-<li>增加了对实体的数据包的支持：<ol>
-<li>“showe”功能：显示周围的实体的信息，尚未对type进行解析，还是一堆数字，但可以去自行查表。</li>
-<li>“attack”功能：挺好玩的一个功能，攻击所有可攻击到的实体或指定实体（使用“showe”提供的实体ID）。<br>挺神奇的一点，这个可以做到无视野隔墙攻击，可不要滥用哦。主要是为打盔甲架，处死怪物使得。</li>
-</ol>
-</li>
-<li>增加了“item”功能，切换手持物品，目前不是很完善，没太大用途（除非你知道你快捷栏里都是啥）。</li>
-<li>增加了“move”功能，小范围移动，瞬移到指定坐标，也是没啥用。赶路还得是靠真人赶路，再使软件挂机。</li>
-<li>增加了“music”功能，这是个大头，搞了挺长时间的。像是脚本那种，提前布置好音符盒（一个音一个盒）。<br>可以按照给出的谱子自动演奏（原版可用哦），不受红石限制（指音符间隔不能短于一红石刻），支持<a href="https://opennbs.org/" title="" target="">&lt;nbs&gt;</a> 格式。<br>nbs格式支持来自：<a href="https://github.com/xxmicloxx/NoteBlockAPI" title="" target="">&lt;NoteBlockAPI&gt;</a> ，不过仅支持老版的，不难转换就是注意一下。网上有很多nbs资源。<br>可以去服务器开音乐会了，哈哈哈。音符盒必须按照后面给出的规定格式建造。</li>
-<li>增加了提示，每层子命令都会提供相应的命令，及其说明。更容易上手了。</li>
-<li>改进了命令交互模式，现在进入子命令后在执行大部分命令后，不会直接返回到主页面，而是需要输入“back”。</li>
-</ol>
-<h2 id="关于音符盒的规定格式："><a href="#关于音符盒的规定格式：" class="headerlink" title="关于音符盒的规定格式："></a>关于音符盒的规定格式：</h2><img src="/2022/04/25/mCClient-1-4/note.png" class="" title="如图所示">
-
-<img src="/2022/04/25/mCClient-1-4/note2.png" class="" title="如图所示">
-
-<p>说明：</p>
-<ol>
-<li>玩家必须站在中心的海晶灯上。</li>
-<li>图1是面向西边拍摄的，图2是朝北边拍摄的，要注意方向。</li>
-<li>材质包是XeKr的原版红石显示，可以显示音符盒的具体信息。可以去B站上搜。</li>
-<li>一种音色占3*9=27格子，但只有25个音，所以有两个没用的音符盒。</li>
-</ol>
-<p>演示视频：</p>
-<iframe src="//player.bilibili.com/player.html?bvid=BV1Ai4y1m7dy&page=1" width=800 height=600 scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-
-<h2 id="下载及问题反馈："><a href="#下载及问题反馈：" class="headerlink" title="下载及问题反馈："></a>下载及问题反馈：</h2><p>制作不易，如果玩的开心还请到B站多多支持我，感谢。<a href="/2022/04/25/mCClient-1-4/mCClient1.4.zip" title="&lt;点我下载&gt;">&lt;点我下载&gt;</a></p>
-<p>如果第一次使用，可以先看看上面的第一个版本 “mCClient_1.0”，稍微了解一下。</p>
-<p>遇到任何问题也请到B站私信我。<a href="https://space.bilibili.com/22168654" title="" target="">&lt;C20C01的B站空间&gt;</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-  
-  <div>
-    
- </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/">&lt;--</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/8/">--&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/6/">&lt;--</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/8/">--&gt;</a>
   </nav>
 
 
@@ -847,7 +1001,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-count">94</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
